@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name" translatable="false">TicTacToe</string>
+    <string name="login_name">Login</string>
+    <string name="signIn_name">Sign In</string>
+    <string name="username_name">Username</string>
+    <string name="passwd_name">Password</string>
+</resources>
