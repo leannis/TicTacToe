@@ -11,8 +11,3 @@ public class MainWindwo extends AppCompatActivity {
         setContentView(R.layout.activity_main_windwo);
     }
 }
-
-/* window */
-/*hello world*/
-
-/*jooo*/
