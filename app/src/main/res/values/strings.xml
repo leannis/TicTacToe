@@ -4,4 +4,8 @@
     <string name="signIn_name">Sign In</string>
     <string name="username_name">Username</string>
     <string name="passwd_name">Password</string>
+    <string name="sign_user">new Username</string>
+    <string name="sign_pw1">enter Password</string>
+    <string name="sign_pw2">confirm Password</string>
+    <string name="sign_btn">SIGN UP</string>
 </resources>
