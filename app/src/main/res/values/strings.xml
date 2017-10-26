@@ -8,4 +8,5 @@
     <string name="sign_pw1">enter Password</string>
     <string name="sign_pw2">confirm Password</string>
     <string name="sign_btn">SIGN UP</string>
+    <string name="cancel">Cancel</string>
 </resources>
