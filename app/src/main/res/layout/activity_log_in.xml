@@ -30,7 +30,7 @@
 
     <EditText
         android:id="@+id/t_passwd"
-        android:layout_width="298dp"
+        android:layout_width="300dp"
         android:layout_height="60dp"
         android:ems="10"
         android:inputType="textPassword"
@@ -40,7 +40,14 @@
         android:hint="@string/passwd_name"
         app:layout_constraintTop_toBottomOf="@+id/t_username"
         android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:shadowColor="@android:color/white"
+        android:textColor="@android:color/white"
+        android:textColorHighlight="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:backgroundTint="@android:color/white"
+        android:textCursorDrawable="@null"
+        />
 
     <Button
         android:id="@+id/b_login"

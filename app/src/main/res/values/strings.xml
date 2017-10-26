@@ -9,4 +9,10 @@
     <string name="sign_pw2">confirm Password</string>
     <string name="sign_btn">SIGN UP</string>
     <string name="cancel">Cancel</string>
+    <string name="sing_btn">Singleplayer</string>
+    <string name="multi_btn">Multiplayer</string>
+    <string name="multi_web_btn">Multiplayer Web</string>
+    <string name="help_btn">Help</string>
+    <string name="highscore_btn">HighScore</string>
+    <string name="logout_btn">Logout</string>
 </resources>
