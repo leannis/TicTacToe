@@ -1,5 +1,8 @@
 package com.example.lea.tictactoe;
+
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,21 +12,24 @@ import android.widget.EditText;
 
 
 public class LogIn extends AppCompatActivity {
-    public Button b_signin = (Button) findViewById(R.id.b_signup);
-    public Button b_login = (Button) findViewById(R.id.b_login);
 
-    public EditText et_user = (EditText) findViewById(R.id.t_username);
-    public EditText et_pw = (EditText) findViewById(R.id.t_username);
 
     public String user, password = null;
-
-    public PasswordManager pwm = new PasswordManager();
+    public Button b_signin, b_login;
+    public EditText et_user, et_pw;
+    Tools tools = new Tools(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_log_in);
+
+        b_signin = (Button) findViewById(R.id.b_signup);
+        b_login = (Button) findViewById(R.id.b_login);
+        et_user = (EditText) findViewById(R.id.t_username);
+        et_pw = (EditText) findViewById(R.id.t_passwd);
 
         b_signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,8 +37,6 @@ public class LogIn extends AppCompatActivity {
                 startActivity(new Intent(LogIn.this, SignUp.class));
             }
         });
-
-        pwm.addUser("test", "test123");
 
         b_login.setOnClickListener(new View.OnClickListener() {
 
@@ -42,23 +46,25 @@ public class LogIn extends AppCompatActivity {
                 user = et_user.getText().toString();
                 password = et_pw.getText().toString();
 
-                if (user.isEmpty()){
-                    //Msgbox User füllen
-                }
-                else if (password.isEmpty()){
-                    //Msgbox PW füllen
-                }
-                if(!user.isEmpty() && !password.isEmpty()){
-                   int x = pwm.checkUser(user, password);
-                    if (x == 1){
-                        //Gehe ins Game
-                    }
-                    else if(x == 2){
-                        //messagebox PW Falsch
-                    }
-                    else if(x == 3){
-                        //MEssagebox User gibts nicht
-                        // --> Registrierung?!
+                System.out.println(user + " " + password);
+
+                if (user.isEmpty()) {
+
+                    tools.showMsgBox("Please enter a Username");
+                } else if (password.isEmpty()) {
+                    tools.showMsgBox("Please enter a Password");
+                } else//(!(user.isEmpty()) && !(password.isEmpty())){
+                {
+
+                    int x = PasswordManager.checkUser(user, password);
+                    if (x == 1) {
+                        tools.showMsgBox("Login erfolgreich");
+                    } else if (x == 2) {
+                        tools.showMsgBox("Passwort falsch");
+                    } else if (x == 3) {
+                        tools.msg_registry = true;
+                        tools.showMsgBox("User existiert nicht");
+
                     }
                 }
             }
@@ -68,5 +74,6 @@ public class LogIn extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         startActivity(new Intent(LogIn.this, StartScreen.class));
+
     }
 }
