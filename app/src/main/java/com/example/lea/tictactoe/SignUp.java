@@ -24,4 +24,9 @@ public class SignUp extends Activity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(SignUp.this, LogIn.class));
+    }
 }
