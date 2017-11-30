@@ -1,6 +1,7 @@
 package com.example.lea.tictactoe;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +10,17 @@ import android.widget.Button;
 
 public class StartScreen extends AppCompatActivity {
 
+    public DBAccess db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_start_screen);
+
+        db = new DBAccess(this, "ttt_db");
+
+        System.out.println("test");
 
         Button b_single = (Button) findViewById(R.id.b_single);
         Button b_multi = (Button) findViewById(R.id.b_multi);

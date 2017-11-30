@@ -1,5 +1,7 @@
 package com.example.lea.tictactoe;
 
+import android.content.ContentValues;
+
 import java.util.HashMap;
 
 public class PasswordManager {
@@ -8,7 +10,9 @@ public class PasswordManager {
 
     public PasswordManager() {
 
-        addUser("test", "test123");
+
+
+
 
     }
 
