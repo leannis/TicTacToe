@@ -7,13 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;gi
+import android.widget.Button;
 import android.widget.EditText;
 
 
 public class LogIn extends AppCompatActivity {
-
-
+// hallo
+// basst
     public String user, password = null;
     public Button b_signin, b_login;
     public EditText et_user, et_pw;
