@@ -1,12 +1,12 @@
 package com.example.lea.tictactoe;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+
 
 public class StartScreen extends AppCompatActivity {
 
@@ -46,5 +46,10 @@ public class StartScreen extends AppCompatActivity {
                 startActivity(new Intent(StartScreen.this, LogIn.class));
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(StartScreen.this, LogIn.class));
     }
 }

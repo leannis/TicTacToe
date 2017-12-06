@@ -1,8 +1,6 @@
 package com.example.lea.tictactoe;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +10,7 @@ import android.widget.EditText;
 
 
 public class LogIn extends AppCompatActivity {
-// hallo
-// basst
+
     public String user, password = null;
     public Button b_signin, b_login;
     public EditText et_user, et_pw;
@@ -53,12 +50,11 @@ public class LogIn extends AppCompatActivity {
                     tools.showMsgBox("Please enter a Username");
                 } else if (password.isEmpty()) {
                     tools.showMsgBox("Please enter a Password");
-                } else//(!(user.isEmpty()) && !(password.isEmpty())){
+                } else
                 {
-
                     int x = PasswordManager.checkUser(user, password);
                     if (x == 1) {
-                        tools.showMsgBox("Login erfolgreich");
+                        startActivity(new Intent(LogIn.this, StartScreen.class));
                     } else if (x == 2) {
                         tools.showMsgBox("Passwort falsch");
                     } else if (x == 3) {
@@ -73,7 +69,6 @@ public class LogIn extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(LogIn.this, StartScreen.class));
-
+        tools.showMsgBox("Möchten Sie wirklich die App verlassen?");
     }
 }

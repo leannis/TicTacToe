@@ -1,7 +1,5 @@
 package com.example.lea.tictactoe;
 
-import android.content.ContentValues;
-
 import java.util.HashMap;
 
 public class PasswordManager {
