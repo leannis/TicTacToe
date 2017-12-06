@@ -1,5 +1,6 @@
 package com.example.lea.tictactoe;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,30 +19,60 @@ public class Tools {
         this.con = cont;
     }
 
-    public void showMsgBox(String msg) {
+    public enum MsgState {
+        REGISTER, EXIT, ACCEPT
+    }
+
+    public void showMsgBox(String msg, MsgState state) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(con);
         builder.setTitle("TicTacToe");
         builder.setMessage(msg);
 
-        if (msg_registry == false) {
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+        switch (state) {
+            case ACCEPT:
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                    dialog.cancel();
-                }
-            });
-        } else {
-            builder.setPositiveButton("Register", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    con.startActivity(new Intent(con, SignUp.class));
-                }
-            });
+                        dialog.cancel();
+                    }
+                });
+                break;
+            case REGISTER:
+                builder.setPositiveButton("Register", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        con.startActivity(new Intent(con, SignUp.class));
+                    }
+                });
+                break;
+            case EXIT:
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Activity activity = (Activity) con;
+                        activity.finish();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing stay in the same activity
+                    }
+                });
+                break;
+            default:
+                builder.setMessage("Unbekannter Zustand!");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // default value
+                    }
+                });
+                break;
         }
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 }

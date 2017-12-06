@@ -19,12 +19,8 @@ public class DBAccess extends SQLiteOpenHelper {
         super(activity, dbname, null, 1);
         db = getWritableDatabase();
 
-
-
         Cursor test = db.query("users", null, null, null, null, null, null);
         System.out.println("***** :" + test.getCount());
-
-
     }
 
     @Override
@@ -33,13 +29,10 @@ public class DBAccess extends SQLiteOpenHelper {
         try{
             String sql = "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, user varchar(50), password varchar(50))";
             db.execSQL(sql);
-
         }
         catch(Exception ex){
             Log.e("ÄÄÄÄHHHHH", ex.getMessage());
         }
-
-
     }
 
     @Override

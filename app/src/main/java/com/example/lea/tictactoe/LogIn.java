@@ -47,19 +47,18 @@ public class LogIn extends AppCompatActivity {
 
                 if (user.isEmpty()) {
 
-                    tools.showMsgBox("Please enter a Username");
+                    tools.showMsgBox("Please enter a Username", Tools.MsgState.ACCEPT);
                 } else if (password.isEmpty()) {
-                    tools.showMsgBox("Please enter a Password");
-                } else
-                {
+                    tools.showMsgBox("Please enter a Password", Tools.MsgState.ACCEPT);
+                } else {
                     int x = PasswordManager.checkUser(user, password);
                     if (x == 1) {
                         startActivity(new Intent(LogIn.this, StartScreen.class));
                     } else if (x == 2) {
-                        tools.showMsgBox("Passwort falsch");
+                        tools.showMsgBox("Passwort falsch", Tools.MsgState.ACCEPT);
                     } else if (x == 3) {
                         tools.msg_registry = true;
-                        tools.showMsgBox("User existiert nicht");
+                        tools.showMsgBox("User existiert nicht", Tools.MsgState.REGISTER);
 
                     }
                 }
@@ -69,6 +68,6 @@ public class LogIn extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        tools.showMsgBox("Möchten Sie wirklich die App verlassen?");
+        tools.showMsgBox("Möchten Sie die App wirklich verlassen?", Tools.MsgState.EXIT);
     }
 }

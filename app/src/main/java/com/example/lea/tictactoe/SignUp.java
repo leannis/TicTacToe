@@ -46,34 +46,31 @@ public class SignUp extends Activity {
 
 
                 if (user.isEmpty()) {
-                    tools.showMsgBox("Please enter a Username");
+                    tools.showMsgBox("Please enter a Username", Tools.MsgState.ACCEPT);
                 } else if (pw1.isEmpty() || pw2.isEmpty()) {
-                    tools.showMsgBox("Please enter/confirm  Password");
+                    tools.showMsgBox("Please enter/confirm  Password", Tools.MsgState.ACCEPT);
                 } else if (!(user.isEmpty()) && !(pw1.isEmpty()) && !(pw2.isEmpty())) {
                     System.out.println("debug");
                     int ret = PasswordManager.checkUserRegister(user);
                     System.out.println(ret);
                     if (ret == -1) {
-                        tools.showMsgBox("This Username has already been taken.");
+                        tools.showMsgBox("This Username has already been taken.",Tools.MsgState.ACCEPT);
                     } else if (ret == 1) {
 
                         if (!(pw1.equals(pw2))) {
-                            tools.showMsgBox("Passwords don't match.");
+                            tools.showMsgBox("Passwords don't match.", Tools.MsgState.ACCEPT);
                         } else {
                             PasswordManager.addUser(user, pw1);
-                            tools.showMsgBox("User has succesfully been signed up.");
+                            tools.showMsgBox("User has succesfully been signed up.", Tools.MsgState.ACCEPT);
                         }
-
                     }
-
                 }
-
             }
         });
     }
 
    /* @Override
     public void onBackPressed() {
-        startActivity(new Intent(SignUp.this, LogIn.class));
+        startActivity(new Intent(SignUp.this, ACCEPT.class));
     }*/
 }
