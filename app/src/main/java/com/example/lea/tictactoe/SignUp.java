@@ -35,6 +35,9 @@ public class SignUp extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SignUp.this, LogIn.class));
+                et_pw1.setText(null);
+                et_pw2.setText(null);
+                et_user.setText(null);
             }
         });
 
@@ -70,6 +73,9 @@ public class SignUp extends Activity {
                         }
                     }
                 }
+                et_pw1.setText(null);
+                et_pw2.setText(null);
+                et_user.setText(null);
             }
         });
     }

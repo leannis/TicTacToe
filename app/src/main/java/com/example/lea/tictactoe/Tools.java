@@ -20,7 +20,7 @@ public class Tools {
     }
 
     public enum MsgState {
-        REGISTER, EXIT, ACCEPT
+        REGISTER, EXIT, ACCEPT, LOGOUT
     }
 
     public void showMsgBox(String msg, MsgState state) {
@@ -62,6 +62,21 @@ public class Tools {
                     }
                 });
                 break;
+            case LOGOUT:
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       con.startActivity(new Intent(con, LogIn.class));
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing stay in the same activity
+                    }
+                });
+                break;
+
             default:
                 builder.setMessage("Unbekannter Zustand!");
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

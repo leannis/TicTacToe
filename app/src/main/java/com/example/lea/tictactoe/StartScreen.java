@@ -10,7 +10,7 @@ import android.widget.Button;
 
 public class StartScreen extends AppCompatActivity {
 
-
+    Tools tools;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +18,7 @@ public class StartScreen extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_start_screen);
 
+        tools = new Tools(this);
 
 
         System.out.println("test");
@@ -25,25 +26,40 @@ public class StartScreen extends AppCompatActivity {
         Button b_single = (Button) findViewById(R.id.b_single);
         Button b_multi = (Button) findViewById(R.id.b_multi);
         Button b_multi_web = (Button) findViewById(R.id.b_multi_web);
+        Button b_logout = (Button) findViewById(R.id.b_logout);
 
         b_single.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StartScreen.this, LogIn.class));
+
+                startActivity(new Intent(StartScreen.this, TicTacToe.class));
+                TicTacToe.gamemode = 1;
             }
         });
 
         b_multi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StartScreen.this, LogIn.class));
+
+                startActivity(new Intent(StartScreen.this, TicTacToe.class));
+                TicTacToe.gamemode = 2;
             }
         });
 
         b_multi_web.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StartScreen.this, LogIn.class));
+
+                startActivity(new Intent(StartScreen.this, TicTacToe.class));
+                TicTacToe.gamemode = 3;
+            }
+        });
+
+        b_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tools.showMsgBox("Wollen Sie sich wirklich ausloggen?", Tools.MsgState.EXIT);
+
             }
         });
     }

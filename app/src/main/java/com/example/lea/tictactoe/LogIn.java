@@ -26,13 +26,14 @@ public class LogIn extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_log_in);
 
+
+
         pwm = new PasswordManager(this);
 
         b_signin = (Button) findViewById(R.id.b_signup);
         b_login = (Button) findViewById(R.id.b_login);
         et_user = (EditText) findViewById(R.id.t_username);
         et_pw = (EditText) findViewById(R.id.t_passwd);
-
 
 
         b_signin.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +74,10 @@ public class LogIn extends AppCompatActivity {
                     }
                 }
 
+                et_pw.setText(null);
+                et_user.setText(null);
             }
+
         });
     }
 
