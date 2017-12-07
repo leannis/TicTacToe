@@ -20,10 +20,10 @@
             android:name=".LogIn"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MAIN" > </action>
+                <category android:name="android.intent.category.LAUNCHER"> </category>
             </intent-filter>
+
         </activity>
         <activity
             android:name=".SignUp"
