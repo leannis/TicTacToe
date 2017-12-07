@@ -11,17 +11,28 @@ import android.util.Log;
  * Created by Patrick on 30.11.2017.
  */
 
-public class DBAccess extends SQLiteOpenHelper {
+public  class DBAccess extends SQLiteOpenHelper {
 
-    public SQLiteDatabase db;
+    public  SQLiteDatabase db;
 
-    public DBAccess(Context activity, String dbname){
-        super(activity, dbname, null, 1);
+    public DBAccess(Context context, String dbname){
+        super(context, dbname, null, 1);
         db = getWritableDatabase();
 
         Cursor test = db.query("users", null, null, null, null, null, null);
         System.out.println("***** :" + test.getCount());
+
+        Cursor res = db.query("users", null, null, null, null, null, null);
+
+        if (res.getCount() == 0){
+            ContentValues init = new ContentValues();
+            init.put("user", "test");
+            init.put("password", "test123");
+            db.insert("users", null, init);
+        }
+
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -33,6 +44,7 @@ public class DBAccess extends SQLiteOpenHelper {
         catch(Exception ex){
             Log.e("ÄÄÄÄHHHHH", ex.getMessage());
         }
+
     }
 
     @Override
@@ -40,16 +52,29 @@ public class DBAccess extends SQLiteOpenHelper {
 
     }
 
-    public long addUser(String user, String password){
-        ContentValues data = new ContentValues();
-        data.put("user", "test");
-        data.put("password", "test123");
-
-        return db.insert("users", null, data);
+    @Override
+    public synchronized  void close(){
+        if(db != null){
+            db.close();
+            db = null;
+        }
+        super.close();
     }
 
-    public Cursor getUserPW(long id){
-        Cursor result = db.query("users", null, "id = " + id, null, null, null, null);
-        return result;
+
+    public  String getUserPWbyName(String user){
+        System.out.println("DEBUG");
+        Cursor result = db.query("users", null, "user = " + "'" + user + "'", null, null, null, null);
+
+        System.out.println("Anzahl in Tabelle : " + result.getCount());
+
+        if (result.getCount() > 0) {
+            result.moveToFirst();
+            String temp = result.getString(result.getColumnIndex("password"));
+            return temp;
+        }
+        else{
+            return null;
+        }
     }
 }

@@ -10,7 +10,7 @@ import android.widget.Button;
 
 public class StartScreen extends AppCompatActivity {
 
-    public DBAccess db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class StartScreen extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_start_screen);
 
-        db = new DBAccess(this, "ttt_db");
+
 
         System.out.println("test");
 

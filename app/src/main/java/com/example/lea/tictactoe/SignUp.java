@@ -1,7 +1,6 @@
 package com.example.lea.tictactoe;
 
 import android.app.Activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +17,7 @@ public class SignUp extends Activity {
     EditText et_user, et_pw1, et_pw2;
 
     String user, pw1, pw2;
+    PasswordManager pwm;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,8 @@ public class SignUp extends Activity {
         et_user = (EditText) findViewById(R.id.t_reg_username);
         et_pw1 = (EditText) findViewById(R.id.t_reg_passwd1);
         et_pw2 = (EditText) findViewById(R.id.t_reg_passwd2);
+
+        pwm = new PasswordManager(this);
 
         b_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +53,7 @@ public class SignUp extends Activity {
                     tools.showMsgBox("Please enter/confirm  Password", Tools.MsgState.ACCEPT);
                 } else if (!(user.isEmpty()) && !(pw1.isEmpty()) && !(pw2.isEmpty())) {
                     System.out.println("debug");
-                    int ret = PasswordManager.checkUserRegister(user);
+                    int ret = pwm.checkUserRegister(user);
                     System.out.println(ret);
                     if (ret == -1) {
                         tools.showMsgBox("This Username has already been taken.",Tools.MsgState.ACCEPT);
@@ -60,8 +62,11 @@ public class SignUp extends Activity {
                         if (!(pw1.equals(pw2))) {
                             tools.showMsgBox("Passwords don't match.", Tools.MsgState.ACCEPT);
                         } else {
-                            PasswordManager.addUser(user, pw1);
+
+                            pwm.addUser(user, pw1);
                             tools.showMsgBox("User has succesfully been signed up.", Tools.MsgState.ACCEPT);
+                            startActivity(new Intent(SignUp.this, LogIn.class));
+
                         }
                     }
                 }
