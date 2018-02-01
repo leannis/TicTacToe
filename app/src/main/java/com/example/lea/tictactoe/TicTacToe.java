@@ -1,46 +1,38 @@
 package com.example.lea.tictactoe;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class TicTacToe extends AppCompatActivity {
 
     public int g_player = 1;
-    Button b_1_1, b_1_2, b_1_3, b_2_1, b_2_2, b_2_3, b_3_1, b_3_2, b_3_3;
     Button buttons[][] = new Button[3][3];
     ColorDrawable colors[][] = new ColorDrawable[3][3];
 
     TextView player_view;
-
-    ColorDrawable buttonColor;
     int i , j;
 
     static int gamemode;
-    //
     // 1:   single
     // 2:   multi
     // 3:   multi web
 
-
     int move_count = 0;
     Tools tools;
 
-
-
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tic_tac_toe);
 
         tools = new Tools(this);
-
 
         buttons[0][0] = (Button) findViewById(R.id.b_1_1);
         buttons[0][1] = (Button) findViewById(R.id.b_1_2);
@@ -53,7 +45,7 @@ public class TicTacToe extends AppCompatActivity {
         buttons[2][2] = (Button) findViewById(R.id.b_3_3);
 
         player_view = (TextView) findViewById(R.id.playerView);
-        player_view.setText("Aktueller Spieler: Spieler " + g_player);
+        player_view.setText("Current Player: Player " + g_player);
 
         //init board
         for (i = 0; i < 3; i++) {
@@ -64,76 +56,65 @@ public class TicTacToe extends AppCompatActivity {
                 buttons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                            make_move(temp);
-
+                        make_move(temp);
                     }
                 });
             }
         }
-
-
     }
 
-
+    @SuppressLint("SetTextI18n")
     public boolean set_field(Button b) {
+        ColorDrawable buttonColor = (ColorDrawable) b.getBackground();
 
-        buttonColor = (ColorDrawable) b.getBackground();
+        System.out.println("Buttoncolor: " + b.getBackground());
+        System.out.println("color: " + Color.RED);
 
         if (buttonColor.getColor() == -65536 || buttonColor.getColor() == -256) {
             return false;
-
         } else {
             if (g_player == 1) {
                 b.setBackgroundColor(Color.RED);
                 move_count++;
                 //In die DB schreiben
 
-                player_view.setText("Aktueller Spieler: Spieler " + g_player);
+                player_view.setText("Current player: Player " + g_player);
                 return true;
             } else if (g_player == 2) {
                 b.setBackgroundColor(Color.YELLOW);
                 //In die DB Schreiben
                 move_count++;
 
-                player_view.setText("Aktueller Spieler: Spieler " + g_player);
+                player_view.setText("Current player: Player " + g_player);
                 return true;
             } else {
                 return false;
             }
-
         }
-
-
     }
-
 
     public void make_move(Button b){
 
         if(gamemode == 2) {
 
-            if (set_field(b) == false) {
-                tools.showMsgBox("Feld schon belegt", Tools.MsgState.ACCEPT);
+            if (!set_field(b)) {
+                tools.showMsgBox("Field already taken", Tools.MsgState.ACCEPT);
             } else {
                 set_field(b);
-
             }
             boolean c = check_winner();
-            if (c == true) {
-                tools.showMsgBox("Spieler " + g_player + " hat gewonnen!", Tools.MsgState.ACCEPT);
+            if (c) {
+                tools.showMsgBox("Player " + g_player + " won!", Tools.MsgState.ACCEPT);
             }
-            if (c == false && move_count == 9) {
-                tools.showMsgBox("Unentschieden!", Tools.MsgState.ACCEPT);
+            if (!c && move_count == 9) {
+                tools.showMsgBox("Tied!", Tools.MsgState.ACCEPT);
             }
-
             if (g_player == 1) {
                 g_player = 2;
             } else if (g_player == 2) {
                 g_player = 1;
             }
         }
-
-
     }
 
     public boolean check_winner() {
@@ -148,7 +129,7 @@ public class TicTacToe extends AppCompatActivity {
 
     private boolean checkRows(){
         for(int i = 0; i < 3; i++){
-            if(checkRowCol(colors[i][0].getColor(), colors[i][1].getColor(), colors[i][2].getColor() ) == true){
+            if(checkRowCol(colors[i][0].getColor(), colors[i][1].getColor(), colors[i][2].getColor() )){
                 return true;
             }
         }
@@ -156,16 +137,16 @@ public class TicTacToe extends AppCompatActivity {
     }
     private boolean checkCols(){
         for(int i = 0; i < 3; i++){
-            if(checkRowCol(colors[0][i].getColor(), colors[1][i].getColor(), colors[2][i].getColor() ) == true){
+            if(checkRowCol(colors[0][i].getColor(), colors[1][i].getColor(), colors[2][i].getColor() )){
                 return true;
             }
         }
         return false;
     }
     private boolean checkDia(){
-        return ((checkRowCol(colors[0][0].getColor(), colors[1][1].getColor(), colors[2][2].getColor()) == true) || (checkRowCol(colors[0][2].getColor(), colors[1][1].getColor(), colors[2][0].getColor()) == true));
+        return ((checkRowCol(colors[0][0].getColor(), colors[1][1].getColor(), colors[2][2].getColor()))
+                || (checkRowCol(colors[0][2].getColor(), colors[1][1].getColor(), colors[2][0].getColor())));
     }
-
 
     private boolean checkRowCol(int i1, int i2, int i3){
         return ((i1 != -16777216) && (i1 == i2) && (i2==i3));

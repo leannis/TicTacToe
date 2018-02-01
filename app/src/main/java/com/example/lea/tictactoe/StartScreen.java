@@ -20,7 +20,6 @@ public class StartScreen extends AppCompatActivity {
 
         tools = new Tools(this);
 
-
         System.out.println("test");
 
         Button b_single = (Button) findViewById(R.id.b_single);
@@ -31,7 +30,6 @@ public class StartScreen extends AppCompatActivity {
         b_single.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startActivity(new Intent(StartScreen.this, TicTacToe.class));
                 TicTacToe.gamemode = 1;
             }
@@ -40,7 +38,6 @@ public class StartScreen extends AppCompatActivity {
         b_multi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startActivity(new Intent(StartScreen.this, TicTacToe.class));
                 TicTacToe.gamemode = 2;
             }
@@ -49,7 +46,6 @@ public class StartScreen extends AppCompatActivity {
         b_multi_web.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startActivity(new Intent(StartScreen.this, TicTacToe.class));
                 TicTacToe.gamemode = 3;
             }
@@ -58,8 +54,7 @@ public class StartScreen extends AppCompatActivity {
         b_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tools.showMsgBox("Wollen Sie sich wirklich ausloggen?", Tools.MsgState.EXIT);
-
+                tools.showMsgBox("Logout?", Tools.MsgState.EXIT);
             }
         });
     }

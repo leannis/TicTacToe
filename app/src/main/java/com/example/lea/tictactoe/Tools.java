@@ -6,9 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 
-/**
- * Created by Patrick on 30.11.2017.
- */
 
 public class Tools {
 
@@ -78,7 +75,7 @@ public class Tools {
                 break;
 
             default:
-                builder.setMessage("Unbekannter Zustand!");
+                builder.setMessage("Unknown state!");
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
