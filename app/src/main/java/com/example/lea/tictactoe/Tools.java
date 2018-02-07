@@ -17,7 +17,7 @@ public class Tools {
     }
 
     public enum MsgState {
-        REGISTER, EXIT, ACCEPT, LOGOUT
+        REGISTER, EXIT, ACCEPT, LOGOUT, ACCEPT_AND_EXit
     }
 
     public void showMsgBox(String msg, MsgState state) {
@@ -70,6 +70,15 @@ public class Tools {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // do nothing stay in the same activity
+                    }
+                });
+                break;
+
+            case ACCEPT_AND_EXit:
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        con.startActivity(new Intent(con, StartScreen.class));
                     }
                 });
                 break;
