@@ -54,7 +54,7 @@ public class StartScreen extends AppCompatActivity {
         b_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tools.showMsgBox("Logout?", Tools.MsgState.EXIT);
+                tools.showMsgBox("Logout?", Tools.MsgState.LOGOUT);
             }
         });
     }

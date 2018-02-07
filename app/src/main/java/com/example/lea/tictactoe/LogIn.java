@@ -35,6 +35,7 @@ public class LogIn extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             startActivity(new Intent(LogIn.this, SignUp.class));
+            finish();
             }
         });
 
@@ -57,6 +58,7 @@ public class LogIn extends AppCompatActivity {
 
                 if (x == 1) {
                     startActivity(new Intent(LogIn.this, StartScreen.class));
+                    finish();
                 } else if (x == 2) {
                     tools.showMsgBox("Wrong password", Tools.MsgState.ACCEPT);
                 } else if (x == 3) {

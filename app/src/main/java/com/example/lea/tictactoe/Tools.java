@@ -50,12 +50,13 @@ public class Tools {
                     public void onClick(DialogInterface dialog, int which) {
                         Activity activity = (Activity) con;
                         activity.finish();
+                        System.exit(0);
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // do nothing stay in the same activity
+
                     }
                 });
                 break;
@@ -64,6 +65,8 @@ public class Tools {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                        con.startActivity(new Intent(con, LogIn.class));
+                       Activity act = (Activity) con;
+                       act.finish();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
