@@ -24,6 +24,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         password = strings[1];
         strings[2] = "";
 
+        System.out.println("after declaration");
+
         try {
             URL url = new URL(add_data_url);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
