@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class SignUp extends Activity {
@@ -35,12 +36,6 @@ public class SignUp extends Activity {
         et_pw2 = (EditText) findViewById(R.id.t_reg_passwd2);
 
         pwm = new PasswordManager(this);
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-        if(networkInfo != null && networkInfo.isConnected()) {
-
-        }
 
         b_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +73,7 @@ public class SignUp extends Activity {
                         } else {
 
                             pwm.addUser(user, pw1);
-
+                            insert_user(user, pw1);
                             tools.showMsgBox("User has succesfully been signed up.", Tools.MsgState.ACCEPT);
                             startActivity(new Intent(SignUp.this, LogIn.class));
 
@@ -93,19 +88,11 @@ public class SignUp extends Activity {
 
     }
 
-    public void addUser(View view) {
-
-    }
-
-    public void insert_user(View view) {
+    public void insert_user(String usr, String password) {
 
         BackgroundTask backgroundTask = new BackgroundTask();
-        backgroundTask.execute(user, pw1);
+        backgroundTask.execute(usr, password);
         finish();
     }
 
-   /* @Override
-    public void onBackPressed() {
-        startActivity(new Intent(SignUp.this, ACCEPT.class));
-    }*/
 }

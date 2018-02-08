@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 public class StartScreen extends AppCompatActivity {
@@ -28,6 +29,19 @@ public class StartScreen extends AppCompatActivity {
         Button b_multi = (Button) findViewById(R.id.b_multi);
         Button b_multi_web = (Button) findViewById(R.id.b_multi_web);
         Button b_logout = (Button) findViewById(R.id.b_logout);
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(networkInfo != null && networkInfo.isConnected()) {
+            Context context = getApplicationContext();
+            CharSequence text = "Connected to network";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } else {
+            b_multi_web.setEnabled(false);
+        }
 
         b_single.setOnClickListener(new View.OnClickListener() {
             @Override
