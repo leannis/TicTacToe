@@ -1,6 +1,9 @@
 package com.example.lea.tictactoe;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +22,6 @@ public class StartScreen extends AppCompatActivity {
         setContentView(R.layout.activity_start_screen);
 
         tools = new Tools(this);
-
         System.out.println("test");
 
         Button b_single = (Button) findViewById(R.id.b_single);

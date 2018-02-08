@@ -1,11 +1,15 @@
 package com.example.lea.tictactoe;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class SignUp extends Activity {
@@ -19,10 +23,11 @@ public class SignUp extends Activity {
     String user, pw1, pw2;
     PasswordManager pwm;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        // get buttons and edittext
         b_cancel = (Button) findViewById(R.id.b_cancel);
         b_signup = (Button) findViewById(R.id.b_signup);
         et_user = (EditText) findViewById(R.id.t_reg_username);
@@ -30,6 +35,12 @@ public class SignUp extends Activity {
         et_pw2 = (EditText) findViewById(R.id.t_reg_passwd2);
 
         pwm = new PasswordManager(this);
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(networkInfo != null && networkInfo.isConnected()) {
+
+        }
 
         b_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +78,7 @@ public class SignUp extends Activity {
                         } else {
 
                             pwm.addUser(user, pw1);
+
                             tools.showMsgBox("User has succesfully been signed up.", Tools.MsgState.ACCEPT);
                             startActivity(new Intent(SignUp.this, LogIn.class));
 
@@ -78,6 +90,18 @@ public class SignUp extends Activity {
                 et_user.setText(null);
             }
         });
+
+    }
+
+    public void addUser(View view) {
+
+    }
+
+    public void insert_user(View view) {
+
+        BackgroundTask backgroundTask = new BackgroundTask();
+        backgroundTask.execute(user, pw1);
+        finish();
     }
 
    /* @Override
