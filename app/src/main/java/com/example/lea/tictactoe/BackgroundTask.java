@@ -19,23 +19,28 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... strings) {
+
+
         String user, password, highscore;
         user = strings[0];
         password = strings[1];
-        strings[2] = "";
+        highscore = strings[2];
 
         System.out.println("after declaration");
 
         try {
+            System.out.println("Im Alive");
             URL url = new URL(add_data_url);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            System.out.println("CONNECTED TO DB");
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setDoOutput(true);
             OutputStream outputStream = httpURLConnection.getOutputStream();
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
             String data_string = URLEncoder.encode("user", "UTF-8")+"="+URLEncoder.encode(user, "UTF-8")+"&"+
-                    URLEncoder.encode("password", "UTF-8")+"="+URLEncoder.encode(password, "UTF-8");
+                    URLEncoder.encode("password", "UTF-8")+"="+URLEncoder.encode(password, "UTF-8")+"&" +
+                    URLEncoder.encode("highscore", "UTF-8")+"="+URLEncoder.encode(highscore, "UTF-8");
 
             bufferedWriter.write(data_string);
             bufferedWriter.flush();
@@ -51,8 +56,10 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
             return "One Row of data instered";
 
         } catch (MalformedURLException e) {
+            System.out.println("URL");
             e.printStackTrace();
         } catch (IOException e) {
+            System.out.println("YOU FAILED SON");
             e.printStackTrace();
         }
 

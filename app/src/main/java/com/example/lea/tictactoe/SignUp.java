@@ -37,6 +37,7 @@ public class SignUp extends Activity {
 
         pwm = new PasswordManager(this);
 
+
         b_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,8 +73,8 @@ public class SignUp extends Activity {
                             tools.showMsgBox("Passwords don't match.", Tools.MsgState.ACCEPT);
                         } else {
 
-//                            pwm.addUser(user, pw1);
-                            insert_user(user, pw1, "23");
+                            pwm.addUser(user, pw1);
+                            //insert_user(user, pw1, "23");
                             tools.showMsgBox("User has succesfully been signed up.", Tools.MsgState.ACCEPT);
                             startActivity(new Intent(SignUp.this, LogIn.class));
 
@@ -90,9 +91,7 @@ public class SignUp extends Activity {
 
     public void insert_user(String usr, String password, String highscore) {
 
-        BackgroundTask backgroundTask = new BackgroundTask();
-        backgroundTask.execute(usr, password, highscore);
-        finish();
+
     }
 
 }

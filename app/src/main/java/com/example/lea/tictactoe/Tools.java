@@ -50,7 +50,9 @@ public class Tools {
                     public void onClick(DialogInterface dialog, int which) {
                         Activity activity = (Activity) con;
                         activity.finish();
-                        System.exit(0);
+                        System.out.println("KILL ME NOW");
+                        activity.finishAffinity();
+                        android.os.Process.killProcess(android.os.Process.myPid());
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

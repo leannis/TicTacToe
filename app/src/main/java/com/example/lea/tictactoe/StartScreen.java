@@ -30,16 +30,7 @@ public class StartScreen extends AppCompatActivity {
         Button b_multi_web = (Button) findViewById(R.id.b_multi_web);
         Button b_logout = (Button) findViewById(R.id.b_logout);
 
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-        if(networkInfo != null && networkInfo.isConnected()) {
-            Context context = getApplicationContext();
-            CharSequence text = "Connected to network";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        } else {
+        if(LogIn.connected == false){
             b_multi_web.setEnabled(false);
         }
 
@@ -77,6 +68,11 @@ public class StartScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(StartScreen.this, LogIn.class));
+        if(LogIn.connected == true){
+            startActivity(new Intent(StartScreen.this, LogIn.class));
+        }
+        else if (LogIn.connected == false){
+            tools.showMsgBox("Do you really want to exit?", Tools.MsgState.EXIT);
+        }
     }
 }

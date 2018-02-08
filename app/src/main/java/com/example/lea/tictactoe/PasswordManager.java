@@ -11,23 +11,30 @@ public class PasswordManager {
 
     DBAccess access;
 
+    private Activity act;
 
     public PasswordManager(Context cont) {
 
        access = new DBAccess(cont, "ttt_db");
-
+       act = (Activity) cont;
 
 
     }
 
-    public long addUser(String user, String password){
-        ContentValues data = new ContentValues();
+    public void addUser(String user, String password){
+        /*ContentValues data = new ContentValues();
         data.put("user", user);
         data.put("password", password);
 
 
 
-        return access.db.insert("users", null, data);
+        return access.db.insert("users", null, data);*/
+
+        BackgroundTask backgroundTask = new BackgroundTask();
+        backgroundTask.execute(user, password, "0");
+        act.finish();
+
+
 
     }
 
@@ -70,7 +77,5 @@ public class PasswordManager {
         super.finalize();
         access.close();
     }*/
-
-
 
 }
