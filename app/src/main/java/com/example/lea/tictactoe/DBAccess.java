@@ -33,7 +33,6 @@ public  class DBAccess extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         try{
             String sql = "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, user varchar(50), password varchar(50))";
             db.execSQL(sql);
@@ -41,7 +40,6 @@ public  class DBAccess extends SQLiteOpenHelper {
         catch(Exception ex){
             Log.e("ÄÄÄÄHHHHH", ex.getMessage());
         }
-
     }
 
     @Override

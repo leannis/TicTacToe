@@ -1,7 +1,6 @@
 package com.example.lea.tictactoe;
 
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -25,8 +24,6 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         user = strings[0];
         password = strings[1];
         highscore = strings[2];
-
-        System.out.println("after declaration");
 
         try {
             System.out.println("Im Alive");

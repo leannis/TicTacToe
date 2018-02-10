@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 
 public class LogIn extends AppCompatActivity {
@@ -23,8 +22,6 @@ public class LogIn extends AppCompatActivity {
 
     public static boolean connected;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -34,33 +31,24 @@ public class LogIn extends AppCompatActivity {
 
         pwm = new PasswordManager(this);
 
-
-
         b_signin = (Button) findViewById(R.id.b_signup);
         b_login = (Button) findViewById(R.id.b_login);
         et_user = (EditText) findViewById(R.id.t_username);
         et_pw = (EditText) findViewById(R.id.t_passwd);
 
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
 
-        if(networkInfo != null && networkInfo.isConnected()) {
-            Context context = getApplicationContext();
-            CharSequence text = "Connected to network";
+        if (networkInfo != null && networkInfo.isConnected()) {
             connected = true;
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+            tools.showToast("Connected to network");
         } else {
            connected = false;
-            Context context = getApplicationContext();
-           CharSequence text = "Not connected to network, no Multi-Player-Mode available";
-
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+           tools.showToast("Disconnected from network");
             startActivity(new Intent(LogIn.this, StartScreen.class));
-
         }
 
         b_signin.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +63,6 @@ public class LogIn extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-           // startActivity(new Intent(LogIn.this, StartScreen.class));
             user = et_user.getText().toString();
             password = et_pw.getText().toString();
 
@@ -110,6 +97,4 @@ public class LogIn extends AppCompatActivity {
     public void onBackPressed() {
         tools.showMsgBox("Exit app?", Tools.MsgState.EXIT);
     }
-
-
 }

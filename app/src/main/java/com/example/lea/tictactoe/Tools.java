@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 
 public class Tools {
@@ -100,5 +101,13 @@ public class Tools {
         }
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void showToast(String msg) {
+        Context context = con.getApplicationContext();
+        CharSequence text = msg;
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }

@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tictactoe'
             keyPassword 'tictactoe'
-            storeFile file('C:/Users/Patrick/Desktop/App/key.jks')
+            storeFile file('/home/lea/Project/TicTacToe/TicTacToe/app/key.jks')
             storePassword 'tictactoe'
         }
     }

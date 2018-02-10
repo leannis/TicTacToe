@@ -1,17 +1,11 @@
 package com.example.lea.tictactoe;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
 
 public class SignUp extends Activity {
 
@@ -37,7 +31,6 @@ public class SignUp extends Activity {
 
         pwm = new PasswordManager(this);
 
-
         b_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +49,6 @@ public class SignUp extends Activity {
                 pw1 = et_pw1.getText().toString();
                 pw2 = et_pw2.getText().toString();
 
-
                 if (user.isEmpty()) {
                     tools.showMsgBox("Please enter a Username", Tools.MsgState.ACCEPT);
                 } else if (pw1.isEmpty() || pw2.isEmpty()) {
@@ -72,12 +64,9 @@ public class SignUp extends Activity {
                         if (!(pw1.equals(pw2))) {
                             tools.showMsgBox("Passwords don't match.", Tools.MsgState.ACCEPT);
                         } else {
-
                             pwm.addUser(user, pw1);
-                            //insert_user(user, pw1, "23");
                             tools.showMsgBox("User has succesfully been signed up.", Tools.MsgState.ACCEPT);
                             startActivity(new Intent(SignUp.this, LogIn.class));
-
                         }
                     }
                 }
@@ -86,12 +75,5 @@ public class SignUp extends Activity {
                 et_user.setText(null);
             }
         });
-
     }
-
-    public void insert_user(String usr, String password, String highscore) {
-
-
-    }
-
 }
