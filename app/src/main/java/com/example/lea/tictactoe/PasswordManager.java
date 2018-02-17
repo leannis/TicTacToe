@@ -16,8 +16,11 @@ public class PasswordManager {
     }
 
     public void addUser(String user, String password){
+        String highscore = "0";
+        String query = "insert into users (user, password, highscore) " +
+                "values('"+user+"','"+password+"','"+highscore+"');";
         BackgroundTask backgroundTask = new BackgroundTask();
-        backgroundTask.execute(user, password, "0");
+        backgroundTask.execute(query);
         act.finish();
     }
 

@@ -19,11 +19,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
 
-
-        String user, password, highscore;
-        user = strings[0];
-        password = strings[1];
-        highscore = strings[2];
+        String query;
+        query = strings[0];
 
         try {
             System.out.println("Im Alive");
@@ -35,9 +32,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
             OutputStream outputStream = httpURLConnection.getOutputStream();
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-            String data_string = URLEncoder.encode("user", "UTF-8")+"="+URLEncoder.encode(user, "UTF-8")+"&"+
-                    URLEncoder.encode("password", "UTF-8")+"="+URLEncoder.encode(password, "UTF-8")+"&" +
-                    URLEncoder.encode("highscore", "UTF-8")+"="+URLEncoder.encode(highscore, "UTF-8");
+            String data_string = URLEncoder.encode("query", "UTF-8")
+                    +"="+URLEncoder.encode(query, "UTF-8");
 
             bufferedWriter.write(data_string);
             bufferedWriter.flush();
@@ -73,7 +69,7 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        add_data_url = "https://lea.forest4fun.biz/addData.php";
+        add_data_url = "https://lea.forest4fun.biz/addQuery.php";
     }
 
     @Override
