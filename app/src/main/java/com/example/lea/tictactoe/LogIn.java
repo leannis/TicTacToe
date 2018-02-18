@@ -14,6 +14,9 @@ import android.widget.EditText;
 
 public class LogIn extends AppCompatActivity {
 
+    // TODO: maybe login via google account
+    // TODO: database optimization
+
     public String user, password = null;
     public Button b_signin, b_login;
     public EditText et_user, et_pw;
@@ -60,35 +63,35 @@ public class LogIn extends AppCompatActivity {
         });
 
         b_login.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-            user = et_user.getText().toString();
-            password = et_pw.getText().toString();
+                pwm.sentUserRequest();
+                user = et_user.getText().toString();
+                password = et_pw.getText().toString();
 
-            System.out.println(user + " " + password);
+                System.out.println(user + " " + password);
 
-            if (user.isEmpty()) {
-                tools.showMsgBox("Please enter an username", Tools.MsgState.ACCEPT);
-            } else if (password.isEmpty()) {
-                tools.showMsgBox("Please enter a password", Tools.MsgState.ACCEPT);
-            } else {
-                int x = pwm.checkUser(user, password);
+                if (user.isEmpty()) {
+                    tools.showMsgBox("Please enter an username", Tools.MsgState.ACCEPT);
+                } else if (password.isEmpty()) {
+                    tools.showMsgBox("Please enter a password", Tools.MsgState.ACCEPT);
+                } else {
+                    int x = pwm.checkUser(user, password);
 
-                if (x == 1) {
-                    startActivity(new Intent(LogIn.this, StartScreen.class));
-                    finish();
-                } else if (x == 2) {
-                    tools.showMsgBox("Wrong password", Tools.MsgState.ACCEPT);
-                } else if (x == 3) {
-                    tools.msg_registry = true;
-                    tools.showMsgBox("User doesn't exists", Tools.MsgState.REGISTER);
+                    if (x == 1) {
+                        startActivity(new Intent(LogIn.this, StartScreen.class));
+                        finish();
+                    } else if (x == 2) {
+                        tools.showMsgBox("Wrong password", Tools.MsgState.ACCEPT);
+                    } else if (x == 3) {
+                        tools.msg_registry = true;
+                        tools.showMsgBox("User doesn't exists", Tools.MsgState.REGISTER);
+                    }
                 }
-            }
 
-            et_pw.setText(null);
-            et_user.setText(null);
-            }
+                et_pw.setText(null);
+                et_user.setText(null);
+                }
 
         });
     }

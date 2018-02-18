@@ -26,7 +26,7 @@ public class StartScreen extends AppCompatActivity {
         Button b_multi_web = (Button) findViewById(R.id.b_multi_web);
         Button b_logout = (Button) findViewById(R.id.b_logout);
 
-        if(LogIn.connected == false){
+        if(LogIn.connected){
             b_multi_web.setEnabled(false);
         }
 
@@ -64,10 +64,10 @@ public class StartScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(LogIn.connected == true){
+        if(LogIn.connected){
             startActivity(new Intent(StartScreen.this, LogIn.class));
         }
-        else if (LogIn.connected == false){
+        else if (!LogIn.connected){
             tools.showMsgBox("Do you really want to exit?", Tools.MsgState.EXIT);
         }
     }

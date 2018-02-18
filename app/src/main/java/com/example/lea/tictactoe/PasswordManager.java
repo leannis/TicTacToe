@@ -16,15 +16,23 @@ public class PasswordManager {
     }
 
     public void addUser(String user, String password){
-        String highscore = "0";
+        // variable query request
         String query = "insert into users (user, password, highscore) " +
-                "values('"+user+"','"+password+"','"+highscore+"');";
-        BackgroundTask backgroundTask = new BackgroundTask();
-        backgroundTask.execute(query);
+                "values('"+user+"','"+password+"','0');";
+
+        new BackgroundTask("addData").execute(query);
         act.finish();
     }
 
+    public void sentUserRequest() {
+        // variable query request
+        String query = "select user, password from users where id=29;";
+        BackgroundTask backgroundTask = new BackgroundTask("getData");
+        backgroundTask.execute(query);
+    }
+
     public  int checkUser(String user, String pw) {
+
         // 1 = OK
         // 2 = PW falsch
         // 3 = User gibts nicht
@@ -45,7 +53,8 @@ public class PasswordManager {
 
     public  int checkUserRegister(String user) {
 
-        Cursor cursor = access.db.query("users", null, "user = " + "'" + user + "'",null,null,null,null);
+        Cursor cursor = access.db.query("users", null, "user = " + "'" +
+                user + "'",null,null,null,null);
 
         if (cursor.getCount() > 0 ) {
             return -1;
