@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 
+import org.json.JSONException;
+
+import java.util.Map;
+
 public class PasswordManager {
 
     DBAccess access;
 
     private Activity act;
+    private BackgroundTask backgroundTask;
 
     public PasswordManager(Context cont) {
        access = new DBAccess(cont, "ttt_db");
@@ -17,38 +22,38 @@ public class PasswordManager {
 
     public void addUser(String user, String password){
         // variable query request
-        String query = "insert into users (user, password, highscore) " +
-                "values('"+user+"','"+password+"','0');";
+        String query = "insert into users (user, password) values('"+user+"','"+password+"');";
 
-        new BackgroundTask("addData").execute(query);
+        backgroundTask = new BackgroundTask("addData");
+        backgroundTask.execute(query);
         act.finish();
     }
 
-    public void sentUserRequest() {
+    public void sentUserRequest(String user) {
         // variable query request
-        String query = "select user, password from users where id=29;";
-        BackgroundTask backgroundTask = new BackgroundTask("getData");
+
+        System.out.println("sent user request");
+
+        String query = "select user, password from users where user='" + user + "';";
+        backgroundTask = new BackgroundTask("getData");
         backgroundTask.execute(query);
     }
 
-    public  int checkUser(String user, String pw) {
-
+    public int checkUser(String user, String pw) {
         // 1 = OK
         // 2 = PW falsch
         // 3 = User gibts nicht
 
-        String pw_by_name = access.getUserPWbyName(user);
-        System.out.println("PW VOM USER " + user + " : " + pw_by_name);
-
-        if (pw_by_name != null) {
-            if (pw_by_name.equals(pw)) {
-                return 1;
-            } else {
-                return 2;
-            }
-        } else {
-            return 3;
+        backgroundTask = new BackgroundTask();
+        try {
+            backgroundTask.getUser();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+        // TODO check user and pw
+
+        return 1;
     }
 
     public  int checkUserRegister(String user) {

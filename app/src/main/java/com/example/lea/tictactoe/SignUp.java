@@ -64,8 +64,9 @@ public class SignUp extends Activity {
                         if (!(pw1.equals(pw2))) {
                             tools.showMsgBox("Passwords don't match.", Tools.MsgState.ACCEPT);
                         } else {
+                            // add user into db
                             pwm.addUser(user, pw1);
-                            tools.showMsgBox("User has succesfully been signed up.", Tools.MsgState.ACCEPT);
+                            tools.showToast("User has been successfully signed up!");
                             startActivity(new Intent(SignUp.this, LogIn.class));
                         }
                     }

@@ -65,18 +65,18 @@ public class LogIn extends AppCompatActivity {
         b_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pwm.sentUserRequest();
                 user = et_user.getText().toString();
                 password = et_pw.getText().toString();
-
-                System.out.println(user + " " + password);
 
                 if (user.isEmpty()) {
                     tools.showMsgBox("Please enter an username", Tools.MsgState.ACCEPT);
                 } else if (password.isEmpty()) {
                     tools.showMsgBox("Please enter a password", Tools.MsgState.ACCEPT);
                 } else {
+                    pwm.sentUserRequest(user);
+
                     int x = pwm.checkUser(user, password);
+                    System.out.println("i" + x);
 
                     if (x == 1) {
                         startActivity(new Intent(LogIn.this, StartScreen.class));

@@ -1,12 +1,9 @@
 package com.example.lea.tictactoe;
 
 import android.os.AsyncTask;
-import android.util.JsonReader;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -18,20 +15,18 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BackgroundTask extends AsyncTask<String, String, String> {
 
-    private String add_data_url;
-    private String json_url;
-    private String method;
-    private String JSON_STRING;
-    private String response;
-    String user, password;
+    private String add_data_url, json_url, method, user, password;
+
+    public BackgroundTask() {}
 
     public BackgroundTask(String method)  {
         this.method = method;
     }
-    public BackgroundTask() {}
 
     @Override
     protected String doInBackground(String... strings) {
@@ -46,9 +41,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-                String data_string = URLEncoder.encode("query", "UTF-8")
-                        +"="+URLEncoder.encode(query, "UTF-8");
-
+                String data_string = URLEncoder.encode("query", "UTF-8")+"="+URLEncoder.encode(query, "UTF-8");
+                System.out.println('#' + data_string);
                 bufferedWriter.write(data_string);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -74,31 +68,35 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                httpURLConnection.setDoInput(true);
 
-                String data_string = URLEncoder.encode("query", "UTF-8")
-                        +"="+URLEncoder.encode(query, "UTF-8");
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(
+                        new OutputStreamWriter(outputStream, "UTF-8"));
+
+                String data_string = URLEncoder.encode("query", "UTF-8")+"="
+                        +URLEncoder.encode(query, "UTF-8");
 
                 bufferedWriter.write(data_string);
                 bufferedWriter.flush();
                 bufferedWriter.close();
-
                 outputStream.close();
 
                 InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder = new StringBuilder();
+                BufferedReader bufferedReader = new BufferedReader(
+                        new InputStreamReader(inputStream, "iso-8859-1"));
 
-                while ((JSON_STRING = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(JSON_STRING+"\n");
+                StringBuilder response = new StringBuilder();
+                String line = "";
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    response.append(line);
                 }
-
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
 
-                return stringBuilder.toString().trim();
+                return response.toString();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -112,7 +110,11 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        response = result;
+        try {
+            parseJSON(result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -130,25 +132,27 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         super.onProgressUpdate(values);
     }
 
-    public void getUser() {
-        // TODO: jsonparsing
+    public void parseJSON(String result) throws JSONException {
+        JSONObject jsonObject = new JSONObject(result);
+        JSONArray jsonArray = jsonObject.getJSONArray("server_response");
 
-        try{
-            System.out.println("response array - " + response);
-            JSONObject jsonObject = new JSONObject(response);
-            JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-            int count = 0;
+        for (int i = 0; i < jsonArray.length(); i++) {
 
-            while (count < jsonArray.length()){
-                JSONObject JO = jsonArray.getJSONObject(count);
-
-                user = JO.getString("user");
-                password = JO.getString("password");
-                System.out.println(user + password);
-                count++;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+            user = jsonArray.getJSONObject(i).getString("user");
+            password = jsonArray.getJSONObject(i).getString("password");
         }
+        System.out.println("user " + user + "password" + password);
+    }
+
+    public Map<String, String> getUser() throws JSONException {
+
+        System.out.println("getUser");
+
+        HashMap<String, String> users = new HashMap<>();
+
+        users.put("user", user);
+        users.put("password", password);
+
+        return users;
     }
 }
