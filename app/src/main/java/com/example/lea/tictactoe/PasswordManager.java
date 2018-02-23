@@ -6,8 +6,6 @@ import android.database.Cursor;
 
 import org.json.JSONException;
 
-import java.util.Map;
-
 public class PasswordManager {
 
     DBAccess access;
@@ -29,13 +27,20 @@ public class PasswordManager {
         act.finish();
     }
 
-    public void sentUserRequest(String user) {
+    public void sendUserRequest(String user) {
         // variable query request
 
         System.out.println("sent user request");
 
         String query = "select user, password from users where user='" + user + "';";
-        backgroundTask = new BackgroundTask("getData");
+        backgroundTask = new BackgroundTask("getUser");
+        backgroundTask.execute(query);
+    }
+
+    public void sendFieldRequest(String row, String column) {
+        System.out.println("send field request");
+        String query = "select row, col1 from field;";
+        backgroundTask = new BackgroundTask("getField");
         backgroundTask.execute(query);
     }
 

@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class BackgroundTask extends AsyncTask<String, String, String> {
 
-    private String add_data_url, json_url, method, user, password;
+    private String add_data_url, json_url, method, user, password, row, column;
 
     public BackgroundTask() {}
 
@@ -62,7 +62,7 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
                 e.printStackTrace();
             }
         }
-        else if (this.method.equals("getData")) {
+        else if (this.method.equals("getUser") || this.method.equals("getField")) {
             try {
                 URL url = new URL(json_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
@@ -122,8 +122,10 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         super.onPreExecute();
         if (method.equals("addData")) {
             add_data_url = "https://lea.forest4fun.biz/addQuery.php";
-        } else if(method.equals("getData")) {
-            json_url = "https://lea.forest4fun.biz/getData.php";
+        } else if(method.equals("getUser")) {
+            json_url = "https://lea.forest4fun.biz/getUser.php";
+        }else if(method.equals("getField")) {
+            json_url = "https://lea.forest4fun.biz/getField.php";
         }
     }
 
@@ -136,12 +138,21 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         JSONObject jsonObject = new JSONObject(result);
         JSONArray jsonArray = jsonObject.getJSONArray("server_response");
 
-        for (int i = 0; i < jsonArray.length(); i++) {
+        if(method.equals("getUser")) {
+            for (int i = 0; i < jsonArray.length(); i++) {
 
-            user = jsonArray.getJSONObject(i).getString("user");
-            password = jsonArray.getJSONObject(i).getString("password");
+                user = jsonArray.getJSONObject(i).getString("user");
+                password = jsonArray.getJSONObject(i).getString("password");
+                System.out.println("user and pw " + user + " " + password);
+            }
+        }else if(method.equals("getField")) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                row = jsonArray.getJSONObject(i).getString("row");
+                column = jsonArray.getJSONObject(i).getString("column");
+                System.out.println("column row " + row + " " + column);
+            }
         }
-        System.out.println("user " + user + "password" + password);
     }
 
     public Map<String, String> getUser() throws JSONException {
@@ -154,5 +165,17 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         users.put("password", password);
 
         return users;
+    }
+
+    public Map<String, String> getField() throws JSONException {
+
+        System.out.println("getField");
+
+        HashMap<String, String> field = new HashMap<>();
+
+        field.put("row", row);
+        field.put("column", column);
+
+        return field;
     }
 }

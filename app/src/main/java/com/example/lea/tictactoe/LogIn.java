@@ -73,7 +73,9 @@ public class LogIn extends AppCompatActivity {
                 } else if (password.isEmpty()) {
                     tools.showMsgBox("Please enter a password", Tools.MsgState.ACCEPT);
                 } else {
-                    pwm.sentUserRequest(user);
+                    pwm.sendUserRequest(user);
+
+                    pwm.sendFieldRequest("hello", "row");
 
                     int x = pwm.checkUser(user, password);
                     System.out.println("i" + x);
