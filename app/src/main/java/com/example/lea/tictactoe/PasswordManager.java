@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 
-import org.json.JSONException;
-
 public class PasswordManager {
 
     DBAccess access;
@@ -22,7 +20,7 @@ public class PasswordManager {
         // variable query request
         String query = "insert into users (user, password) values('"+user+"','"+password+"');";
 
-        backgroundTask = new BackgroundTask("addData");
+        backgroundTask = new BackgroundTask("addData", act);
         backgroundTask.execute(query);
         act.finish();
     }
@@ -33,32 +31,15 @@ public class PasswordManager {
         System.out.println("sent user request");
 
         String query = "select user, password from users where user='" + user + "';";
-        backgroundTask = new BackgroundTask("getUser");
+        backgroundTask = new BackgroundTask("getUser", act);
         backgroundTask.execute(query);
     }
 
     public void sendFieldRequest(String row, String column) {
         System.out.println("send field request");
         String query = "select row, col1 from field;";
-        backgroundTask = new BackgroundTask("getField");
+        backgroundTask = new BackgroundTask("getField", act);
         backgroundTask.execute(query);
-    }
-
-    public int checkUser(String user, String pw) {
-        // 1 = OK
-        // 2 = PW falsch
-        // 3 = User gibts nicht
-
-        backgroundTask = new BackgroundTask();
-        try {
-            backgroundTask.getUser();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // TODO check user and pw
-
-        return 1;
     }
 
     public  int checkUserRegister(String user) {

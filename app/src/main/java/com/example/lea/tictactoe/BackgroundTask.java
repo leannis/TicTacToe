@@ -1,5 +1,7 @@
 package com.example.lea.tictactoe;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,16 +18,25 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Map;
 
 public class BackgroundTask extends AsyncTask<String, String, String> {
 
-    private String add_data_url, json_url, method, user, password, row, column;
+    private String add_data_url;
+    private String json_url;
+    private String method;
+    private HashMap<String, String> users;
+    private HashMap<String, String> field;
+    private Context con;
 
-    public BackgroundTask() {}
+    private Tools tools = new Tools(con);
 
-    public BackgroundTask(String method)  {
+    public BackgroundTask(Context context) {
+        con = context;
+    }
+
+    public BackgroundTask(String method, Context context)  {
         this.method = method;
+        con = context;
     }
 
     @Override
@@ -141,41 +152,32 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         if(method.equals("getUser")) {
             for (int i = 0; i < jsonArray.length(); i++) {
 
-                user = jsonArray.getJSONObject(i).getString("user");
-                password = jsonArray.getJSONObject(i).getString("password");
-                System.out.println("user and pw " + user + " " + password);
+                String user = jsonArray.getJSONObject(i).getString("user");
+                String password = jsonArray.getJSONObject(i).getString("password");
+
+                users = new HashMap<>();
+                users.put("user", user);
+                users.put("password", password);
+
+                if (users.get("user").isEmpty()) {
+                    tools.msg_registry = true;
+                    tools.showMsgBox("User doesn't exists", Tools.MsgState.REGISTER);
+                } else if (users.get("password").isEmpty()) {
+                    tools.showMsgBox("Wrong password", Tools.MsgState.ACCEPT);
+                } else {
+                    con.startActivity(new Intent(con, StartScreen.class));
+                }
             }
-        }else if(method.equals("getField")) {
+        } else if(method.equals("getField")) {
             for (int i = 0; i < jsonArray.length(); i++) {
 
-                row = jsonArray.getJSONObject(i).getString("row");
-                column = jsonArray.getJSONObject(i).getString("column");
-                System.out.println("column row " + row + " " + column);
+                String row = jsonArray.getJSONObject(i).getString("row");
+                String column = jsonArray.getJSONObject(i).getString("column");
+
+                field = new HashMap<>();
+                field.put("row", row);
+                field.put("column", column);
             }
         }
-    }
-
-    public Map<String, String> getUser() throws JSONException {
-
-        System.out.println("getUser");
-
-        HashMap<String, String> users = new HashMap<>();
-
-        users.put("user", user);
-        users.put("password", password);
-
-        return users;
-    }
-
-    public Map<String, String> getField() throws JSONException {
-
-        System.out.println("getField");
-
-        HashMap<String, String> field = new HashMap<>();
-
-        field.put("row", row);
-        field.put("column", column);
-
-        return field;
     }
 }

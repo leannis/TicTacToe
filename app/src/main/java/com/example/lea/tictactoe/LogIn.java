@@ -75,20 +75,7 @@ public class LogIn extends AppCompatActivity {
                 } else {
                     pwm.sendUserRequest(user);
 
-                    pwm.sendFieldRequest("hello", "row");
-
-                    int x = pwm.checkUser(user, password);
-                    System.out.println("i" + x);
-
-                    if (x == 1) {
-                        startActivity(new Intent(LogIn.this, StartScreen.class));
-                        finish();
-                    } else if (x == 2) {
-                        tools.showMsgBox("Wrong password", Tools.MsgState.ACCEPT);
-                    } else if (x == 3) {
-                        tools.msg_registry = true;
-                        tools.showMsgBox("User doesn't exists", Tools.MsgState.REGISTER);
-                    }
+//                    pwm.sendFieldRequest("hello", "row");
                 }
 
                 et_pw.setText(null);

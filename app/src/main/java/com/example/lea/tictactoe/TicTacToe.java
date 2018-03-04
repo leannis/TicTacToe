@@ -41,6 +41,15 @@ public class TicTacToe extends AppCompatActivity {
 
         tools = new Tools(this);
 
+        Button homeButton = (Button) findViewById(R.id.b_home);
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TicTacToe.this, StartScreen.class));
+            }
+        });
+
         buttons[0][0] = (Button) findViewById(R.id.b_1_1);
         buttons[0][1] = (Button) findViewById(R.id.b_1_2);
         buttons[0][2] = (Button) findViewById(R.id.b_1_3);
@@ -68,8 +77,6 @@ public class TicTacToe extends AppCompatActivity {
                 });
             }
         }
-
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -139,7 +146,7 @@ public class TicTacToe extends AppCompatActivity {
             }
 
 
-            if (move_count != 9 && check == false) {
+            if (move_count != 9 && !check) {
                 cpu_move();
             }
 
@@ -231,8 +238,8 @@ public class TicTacToe extends AppCompatActivity {
 
     private void cpu_move() {
 
-        int rand_x = rand.nextInt(2 - 0 + 1);
-        int rand_y = rand.nextInt(2 - 0 + 1);
+        int rand_x = rand.nextInt(2 + 1);
+        int rand_y = rand.nextInt(2 + 1);
         System.out.println("Random numbers: x: " + rand_x + " y: " + rand_y);
 
         if (!set_field_cpu(buttons[rand_x][rand_y])) {

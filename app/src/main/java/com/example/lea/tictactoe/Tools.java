@@ -32,7 +32,6 @@ public class Tools {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         dialog.cancel();
                     }
                 });
@@ -51,7 +50,6 @@ public class Tools {
                     public void onClick(DialogInterface dialog, int which) {
                         Activity activity = (Activity) con;
                         activity.finish();
-                        System.out.println("KILL ME NOW");
                         activity.finishAffinity();
                         android.os.Process.killProcess(android.os.Process.myPid());
                     }
@@ -59,7 +57,6 @@ public class Tools {
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
                 break;
@@ -67,9 +64,13 @@ public class Tools {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       con.startActivity(new Intent(con, LogIn.class));
-                       Activity act = (Activity) con;
-                       act.finish();
+//                       con.startActivity(new Intent(con, LogIn.class));
+//                       Activity act = (Activity) con;
+//                       act.finish();
+                        Activity activity = (Activity) con;
+                        activity.finish();
+                        activity.finishAffinity();
+                        android.os.Process.killProcess(android.os.Process.myPid());
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

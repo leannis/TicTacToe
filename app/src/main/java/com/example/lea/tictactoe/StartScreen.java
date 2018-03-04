@@ -19,7 +19,6 @@ public class StartScreen extends AppCompatActivity {
         setContentView(R.layout.activity_start_screen);
 
         tools = new Tools(this);
-        System.out.println("test");
 
         Button b_single = (Button) findViewById(R.id.b_single);
         Button b_multi = (Button) findViewById(R.id.b_multi);

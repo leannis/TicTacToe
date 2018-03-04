@@ -109,12 +109,26 @@
 
     <TextView
         android:id="@+id/playerView"
-        android:layout_width="247dp"
-        android:layout_height="44dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
         android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/b_home"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/home_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
