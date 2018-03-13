@@ -205,6 +205,7 @@ public class TicTacToe extends AppCompatActivity {
                     temp = 1;
                 }
 
+
                 new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
 
                 player_move(b);
