@@ -78,6 +78,7 @@ public class TicTacToe extends AppCompatActivity {
                 buttons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         try {
                             make_move(temp);
                         } catch (ExecutionException e) {
@@ -177,8 +178,36 @@ public class TicTacToe extends AppCompatActivity {
             System.out.println("DB FLAG: " + flag_db + "\nDein Flag: " + Tools.flag);
 
             if(flag_db == Tools.flag){
-                //darfst spielen
+
                 tools.showToast("It's your turn");
+
+                int x = 0,y = 0;
+
+                for (int i = 0; i < 3; i++){
+                    for (int j = 0; j < 3; j ++){
+                        if ( buttons[i][j].getId() == b.getId()){
+                            System.out.println(i + " " + j);
+                            x=i;
+                            y=j;
+                            break;
+                        }
+                    }
+                }
+                String query2 = "update field set col"+y+" = "+Tools.flag+" where row = "+ x+";";
+                System.out.println("QUERY 2 : " + query2);
+                new BackgroundTask("addData", this).execute(query2);
+
+                int temp = 0;
+                if(Tools.flag == 1){
+                    temp = 2;
+                }
+                else if (Tools.flag == 2){
+                    temp = 1;
+                }
+
+                new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
+
+                player_move(b);
             }
             else{
                 tools.showToast("It's not your turn");
@@ -231,7 +260,7 @@ public class TicTacToe extends AppCompatActivity {
         return ((i1 != -7829368) && (i1 == i2) && (i2 == i3));
     }
 
-    private void player_move(Button b) {
+    private void player_move(Button b) throws ExecutionException, InterruptedException {
         if (gamemode == 2) {
             if (!set_field_player(b)) {
                 tools.showMsgBox("Field already taken", Tools.MsgState.ACCEPT);
@@ -271,9 +300,10 @@ public class TicTacToe extends AppCompatActivity {
             }
         }
 
-        if(gamemode == 3){
+        if (gamemode == 3) {
 
 
+            refresh();
         }
 
     }
@@ -313,6 +343,31 @@ public class TicTacToe extends AppCompatActivity {
 
         new BackgroundTask("addData", this).execute(query);
         tools.showMsgBox("Exit app?", Tools.MsgState.EXIT);
+    }
+
+
+    public void refresh() throws ExecutionException, InterruptedException {
+
+        for (int i = 0; i < 3 ; i++){
+            for(int j = 0; j < 3; j++){
+                String query = "select row, col"+j+ " from field where row = "+ i+";";
+                System.out.println(query);
+                String res = new BackgroundTask("getField", this).execute(query).get();
+                System.out.println(res);
+
+                int col = Integer.parseInt(tools.parse("column", res));
+
+                if (col == 1){
+                    buttons[i][j].setBackgroundColor(Color.RED);
+                }
+                else if (col == 2){
+                    buttons[i][j].setBackgroundColor(Color.YELLOW);
+                }
+
+
+            }
+        }
+
     }
 
 }
