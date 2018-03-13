@@ -8,10 +8,13 @@ import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 
-public class Tools {
+public  class Tools {
 
     public boolean msg_registry = false;
     public Context con;
+    public static int flag = 0;
+    public static int game;
+    public static String logged_user;
 
     public Tools(Context cont) {
         this.con = cont;
@@ -110,5 +113,39 @@ public class Tools {
         int duration = Toast.LENGTH_LONG;
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
+    }
+
+    public boolean checkResult(String input){
+
+        String debug = input.substring(input.indexOf('[') +1, input.indexOf(']') );
+        System.out.println("Debug: " + debug + " Length + " + debug.length());
+
+        if (debug.length() < 1){
+            System.out.println("false");
+            return false;
+        }
+        else{
+            System.out.println("true");
+            return true;
+        }
+
+    }
+
+    public String parse(String key, String input){
+
+        if(input.indexOf(key) > 0){
+            String debug = input.substring(input.indexOf(key)+key.length()+3, input.length());
+            String test= debug.substring(0, debug.indexOf("\""));
+            return test;
+        }
+        return "a";
+    }
+
+
+    public void set_user(String user ){
+        this.logged_user = user;
+    }
+    public String get_user(){
+        return logged_user;
     }
 }

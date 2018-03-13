@@ -83,7 +83,6 @@ public class TicTacToe extends AppCompatActivity {
     public boolean set_field_player(Button b) {
         ColorDrawable buttonColor = (ColorDrawable) b.getBackground();
 
-
         if (buttonColor.getColor() == -65536 || buttonColor.getColor() == -256) {
             return false;
         } else {
@@ -154,6 +153,12 @@ public class TicTacToe extends AppCompatActivity {
 
         if (gamemode == 2) {
             player_move(b);
+        }
+
+        if(gamemode == 3){
+
+
+
         }
 
     }
@@ -272,6 +277,13 @@ public class TicTacToe extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        String query = "delete from game where id = '"+Tools.game+"';";
+
+        new BackgroundTask("addData", this).execute(query);
+        tools.showMsgBox("Exit app?", Tools.MsgState.EXIT);
+    }
 
 }
 

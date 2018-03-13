@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
+import java.util.concurrent.ExecutionException;
+
 
 public class StartScreen extends AppCompatActivity {
 
@@ -24,6 +26,8 @@ public class StartScreen extends AppCompatActivity {
         Button b_multi = (Button) findViewById(R.id.b_multi);
         Button b_multi_web = (Button) findViewById(R.id.b_multi_web);
         Button b_logout = (Button) findViewById(R.id.b_logout);
+
+
 
 
 
@@ -47,6 +51,13 @@ public class StartScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                try {
+                    joinGame();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 startActivity(new Intent(StartScreen.this, TicTacToe.class));
                 TicTacToe.gamemode = 3;
@@ -69,5 +80,31 @@ public class StartScreen extends AppCompatActivity {
         else if (!LogIn.connected){
             tools.showMsgBox("Do you really want to exit?", Tools.MsgState.EXIT);
         }
+    }
+
+    public void joinGame() throws ExecutionException, InterruptedException {
+
+      String res = new BackgroundTask("getGame", this).execute("select * from game where player1 is not null").get();
+      String id = "";
+      if(!tools.checkResult(res)){
+          //Satz in Tabelle einfügen
+
+          String query = "insert into game (player1, player2, flag) values('"+Tools.logged_user+"','', '');";
+          new BackgroundTask("addData", this).execute(query);
+          Tools.flag = 1;
+          id = new BackgroundTask("getGame", this).execute("select id from game where player1 = '"+Tools.logged_user+"';").get();
+          Tools.game =  Integer.parseInt(tools.parse("id", id));
+
+
+      }
+      else if (tools.checkResult(res)){
+            id = new BackgroundTask("getGame", this).execute("select id from game where player1 is not null;").get();
+            String query = "update game set player2 = '"+Tools.logged_user+"' where id = '"+id+"';";
+            new BackgroundTask("addData", this).execute(query);
+            System.out.println("Updated");
+            Tools.flag = 2;
+            Tools.game = Integer.parseInt((tools.parse("id", id)));
+      }
+
     }
 }

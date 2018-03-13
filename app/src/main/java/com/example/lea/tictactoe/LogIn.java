@@ -103,11 +103,13 @@ public class LogIn extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    System.out.println("Result: " + res);
-                    if(!checkResult(res)){
+
+                  //  System.out.println("Result: " + res);
+                    if(!tools.checkResult(res)){
                         tools.showMsgBox("Username and/or password not correct!", Tools.MsgState.ACCEPT);
                     }
                     else{
+                        Tools.logged_user = user;
                         startActivity(new Intent(LogIn.this, StartScreen.class));
                         finish();
                     }
@@ -153,25 +155,6 @@ public class LogIn extends AppCompatActivity {
 
     }
 */
-    public boolean checkResult(String input){
-
-        String debug = input.substring(input.indexOf('[') +1, input.indexOf(']') );
-        System.out.println("Debug: " + debug + " Length + " + debug.length());
-
-        if (debug.length() < 1){
-            System.out.println("false");
-            return false;
-        }
-        else{
-            System.out.println("true");
-            return true;
-        }
-
-
-
-
-
-    }
 
     @Override
     public void onBackPressed() {

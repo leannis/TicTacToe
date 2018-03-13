@@ -79,7 +79,7 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
                 e.printStackTrace();
             }
         }
-        else if (this.method.equals("getUser") || this.method.equals("getField")) {
+        else if (this.method.equals("getUser") || this.method.equals("getField") || this.method.equals("getGame")) {
             try {
                 URL url = new URL(json_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
@@ -153,6 +153,9 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
             json_url = "https://lea.forest4fun.biz/getUser.php";
         }else if(method.equals("getField")) {
             json_url = "https://lea.forest4fun.biz/getField.php";
+        }
+        else if(method.equals("getGame")) {
+            json_url = "https://lea.forest4fun.biz/getGame.php";
         }
     }
 
