@@ -43,6 +43,11 @@ public class TicTacToe extends AppCompatActivity {
 
         Button homeButton = (Button) findViewById(R.id.b_home);
 
+        if(gamemode == 3){
+
+            tools.showMsgBox("Dein Spiel ist " + Tools.game, Tools.MsgState.ACCEPT);
+        }
+
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -84,23 +84,30 @@ public class StartScreen extends AppCompatActivity {
 
     public void joinGame() throws ExecutionException, InterruptedException {
 
-      String res = new BackgroundTask("getGame", this).execute("select * from game where player1 is not null").get();
+      String res = new BackgroundTask("getGame", this).execute("select id from game where player1 is not null").get();
+
       String id = "";
+
+
+
       if(!tools.checkResult(res)){
           //Satz in Tabelle einfügen
 
           String query = "insert into game (player1, player2, flag) values('"+Tools.logged_user+"','', '');";
           new BackgroundTask("addData", this).execute(query);
           Tools.flag = 1;
+
           id = new BackgroundTask("getGame", this).execute("select id from game where player1 = '"+Tools.logged_user+"';").get();
           Tools.game =  Integer.parseInt(tools.parse("id", id));
 
-          tools.showMsgBox("Dein Spiel ist " + Tools.game, Tools.MsgState.ACCEPT);
+
 
       }
       else if (tools.checkResult(res)){
             id = new BackgroundTask("getGame", this).execute("select id from game where player1 is not null;").get();
-            String query = "update game set player2 = '"+Tools.logged_user+"' where id = '"+id+"';";
+            String parsedid = tools.parse("id", id);
+            String query = "update game set player2 = '"+Tools.logged_user+"' where id = "+parsedid+";";
+          System.out.println(query);
             new BackgroundTask("addData", this).execute(query);
             System.out.println("Updated");
             Tools.flag = 2;
