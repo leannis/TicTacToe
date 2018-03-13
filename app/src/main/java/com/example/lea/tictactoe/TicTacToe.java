@@ -213,6 +213,7 @@ public class TicTacToe extends AppCompatActivity {
             else{
                 tools.showToast("It's not your turn");
 
+
                 int flag_check = 0;
 
                 while(flag_check != tools.flag){
