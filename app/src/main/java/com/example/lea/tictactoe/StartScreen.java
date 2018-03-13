@@ -95,6 +95,7 @@ public class StartScreen extends AppCompatActivity {
           id = new BackgroundTask("getGame", this).execute("select id from game where player1 = '"+Tools.logged_user+"';").get();
           Tools.game =  Integer.parseInt(tools.parse("id", id));
 
+          tools.showMsgBox("Dein Spiel ist " + Tools.game, Tools.MsgState.ACCEPT);
 
       }
       else if (tools.checkResult(res)){
