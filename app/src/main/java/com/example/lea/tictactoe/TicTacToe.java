@@ -168,8 +168,11 @@ public class TicTacToe extends AppCompatActivity {
         }
 
         if(gamemode == 3){
-
-            String res = new BackgroundTask("getGame", this).execute("select flag from game where id = " + Tools.game + ";").get();
+            System.out.println("hallo");
+            String query = "select id, flag from game where id = " + Tools.game + ";";
+            System.out.println(query);
+            String res = new BackgroundTask("getGame", this).execute(query).get();
+            System.out.println(res);
             int flag_db = Integer.parseInt(tools.parse("flag", res));
             System.out.println("DB FLAG: " + flag_db + "\nDein Flag: " + Tools.flag);
 
