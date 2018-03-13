@@ -213,7 +213,14 @@ public class TicTacToe extends AppCompatActivity {
             else{
                 tools.showToast("It's not your turn");
 
-                //SChleife, nachgucken wann du dran bist
+                int flag_check = 0;
+
+                while(flag_check != tools.flag){
+                    flag_check = Integer.parseInt(String.valueOf(new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")));
+                    Thread.sleep(500);
+                }
+
+                System.out.println("IM AWAKE");
 
             }
 
