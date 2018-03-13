@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 public class TicTacToe extends AppCompatActivity {
 
@@ -77,7 +78,13 @@ public class TicTacToe extends AppCompatActivity {
                 buttons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        make_move(temp);
+                        try {
+                            make_move(temp);
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
@@ -137,7 +144,7 @@ public class TicTacToe extends AppCompatActivity {
     }
 
 
-    public void make_move(Button b) {
+    public void make_move(Button b) throws ExecutionException, InterruptedException {
         if (gamemode == 1) {
 
             player_move(b);
@@ -161,6 +168,21 @@ public class TicTacToe extends AppCompatActivity {
         }
 
         if(gamemode == 3){
+
+            String res = new BackgroundTask("getGame", this).execute("select flag from game where id = " + Tools.game + ";").get();
+            int flag_db = Integer.parseInt(tools.parse("flag", res));
+            System.out.println("DB FLAG: " + flag_db + "\nDein Flag: " + Tools.flag);
+
+            if(flag_db == Tools.flag){
+                //darfst spielen
+                tools.showToast("It's your turn");
+            }
+            else{
+                tools.showToast("It's not your turn");
+
+                //SChleife, nachgucken wann du dran bist
+
+            }
 
 
 
