@@ -11,6 +11,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.SQLOutput;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+
 
 public class LogIn extends AppCompatActivity {
 
@@ -22,6 +30,13 @@ public class LogIn extends AppCompatActivity {
     public EditText et_user, et_pw;
     Tools tools = new Tools(this);
     PasswordManager pwm;
+    Context con = this;
+
+    String method;
+    HashMap<String, String> hm_user = new HashMap<>();
+    HashMap<String, String> hm_field = new HashMap<>();
+
+    BackgroundTask task = new BackgroundTask("getUser", this);
 
     public static boolean connected;
 
@@ -31,6 +46,8 @@ public class LogIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_log_in);
+
+
 
         pwm = new PasswordManager(this);
 
@@ -47,6 +64,7 @@ public class LogIn extends AppCompatActivity {
 
         if (networkInfo != null && networkInfo.isConnected()) {
             connected = true;
+
             tools.showToast("Connected to network");
         } else {
            connected = false;
@@ -73,16 +91,86 @@ public class LogIn extends AppCompatActivity {
                 } else if (password.isEmpty()) {
                     tools.showMsgBox("Please enter a password", Tools.MsgState.ACCEPT);
                 } else {
-                    pwm.sendUserRequest(user);
 
-//                    pwm.sendFieldRequest("hello", "row");
+
+
+                     String res = "";
+                    try {
+                        res = new BackgroundTask("getUser", con).execute("select user, password from users where user='" + user + "' and password = '"+password+"';").get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                    System.out.println("Result: " + res);
+                    if(!checkResult(res)){
+                        tools.showMsgBox("Username and/or password not correct!", Tools.MsgState.ACCEPT);
+                    }
+                    else{
+                        startActivity(new Intent(LogIn.this, StartScreen.class));
+                        finish();
+                    }
+
                 }
-
                 et_pw.setText(null);
                 et_user.setText(null);
                 }
 
         });
+    }
+
+    /*public void parseJSON(String result) throws JSONException {
+        System.out.println(result);
+        JSONObject jsonObject = new JSONObject(result);
+        JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+
+        if(method.equals("getUser")) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+
+                String user = jsonArray.getJSONObject(i).getString("user");
+                String password = jsonArray.getJSONObject(i).getString("password");
+
+                System.out.println(user + password);
+
+               // hm_user.put("user", user);
+               // hm_user.put("password", password);
+
+
+            }
+        } else if(method.equals("getField")) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                String row = jsonArray.getJSONObject(i).getString("row");
+                String column = jsonArray.getJSONObject(i).getString("column");
+
+
+                hm_field.put("row", row);
+                hm_field.put("column", column);
+            }
+        }
+
+    }
+*/
+    public boolean checkResult(String input){
+
+        String debug = input.substring(input.indexOf('[') +1, input.indexOf(']') );
+        System.out.println("Debug: " + debug + " Length + " + debug.length());
+
+        if (debug.length() < 1){
+            System.out.println("false");
+            return false;
+        }
+        else{
+            System.out.println("true");
+            return true;
+        }
+
+
+
+
+
     }
 
     @Override

@@ -2,18 +2,28 @@ package com.example.lea.tictactoe;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
+
+import java.sql.SQLOutput;
+import java.util.concurrent.ExecutionException;
 
 public class PasswordManager {
 
     DBAccess access;
 
     private Activity act;
+    private Context cont;
     private BackgroundTask backgroundTask;
+    private Tools tools;
+
 
     public PasswordManager(Context cont) {
        access = new DBAccess(cont, "ttt_db");
        act = (Activity) cont;
+       this.cont = cont;
+       this.tools = new Tools(cont);
     }
 
     public void addUser(String user, String password){
@@ -25,21 +35,18 @@ public class PasswordManager {
         act.finish();
     }
 
-    public void sendUserRequest(String user) {
+   /* public String getQuery(String user) {
         // variable query request
 
         System.out.println("sent user request");
-
         String query = "select user, password from users where user='" + user + "';";
-        backgroundTask = new BackgroundTask("getUser", act);
-        backgroundTask.execute(query);
-    }
+        return query;
+    }*/
 
     public void sendFieldRequest(String row, String column) {
         System.out.println("send field request");
         String query = "select row, col1 from field;";
-        backgroundTask = new BackgroundTask("getField", act);
-        backgroundTask.execute(query);
+
     }
 
     public  int checkUserRegister(String user) {
@@ -53,4 +60,7 @@ public class PasswordManager {
             return 1;
         }
     }
+
+
+
 }

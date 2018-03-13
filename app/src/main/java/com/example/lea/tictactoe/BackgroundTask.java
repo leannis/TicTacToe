@@ -24,8 +24,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     private String add_data_url;
     private String json_url;
     private String method;
-    private HashMap<String, String> users;
-    private HashMap<String, String> field;
+    public  HashMap<String, String> users;
+    public  HashMap<String, String> field;
     private Context con;
 
     private Tools tools = new Tools(con);
@@ -34,8 +34,14 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         con = context;
     }
 
+    // you may separate this or combined to caller class.
+
+
+
+
     public BackgroundTask(String method, Context context)  {
         this.method = method;
+
         con = context;
     }
 
@@ -115,17 +121,27 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
                 e.printStackTrace();
             }
         }
+
         return null;
+
+
     }
 
     @Override
     protected void onPostExecute(String result) {
-        super.onPostExecute(result);
+
+        /*
         try {
             parseJSON(result);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+*/
+        super.onPostExecute(result);
+
+
+
+
     }
 
     @Override
@@ -140,44 +156,24 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         }
     }
 
-    @Override
-    protected void onProgressUpdate(String... values) {
-        super.onProgressUpdate(values);
-    }
 
-    public void parseJSON(String result) throws JSONException {
+
+    public String parseJSON(String result) throws JSONException {
         JSONObject jsonObject = new JSONObject(result);
         JSONArray jsonArray = jsonObject.getJSONArray("server_response");
 
-        if(method.equals("getUser")) {
+        String ret = "";
+
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 String user = jsonArray.getJSONObject(i).getString("user");
                 String password = jsonArray.getJSONObject(i).getString("password");
 
-                users = new HashMap<>();
-                users.put("user", user);
-                users.put("password", password);
+                ret += user+"+"+password+";";
 
-                if (users.get("user").isEmpty()) {
-                    tools.msg_registry = true;
-                    tools.showMsgBox("User doesn't exists", Tools.MsgState.REGISTER);
-                } else if (users.get("password").isEmpty()) {
-                    tools.showMsgBox("Wrong password", Tools.MsgState.ACCEPT);
-                } else {
-                    con.startActivity(new Intent(con, StartScreen.class));
-                }
             }
-        } else if(method.equals("getField")) {
-            for (int i = 0; i < jsonArray.length(); i++) {
 
-                String row = jsonArray.getJSONObject(i).getString("row");
-                String column = jsonArray.getJSONObject(i).getString("column");
+            return ret;
 
-                field = new HashMap<>();
-                field.put("row", row);
-                field.put("column", column);
-            }
-        }
     }
 }

@@ -197,43 +197,50 @@ public class TicTacToe extends AppCompatActivity {
     }
 
     private void player_move(Button b) {
-        if (!set_field_player(b)) {
-            tools.showMsgBox("Field already taken", Tools.MsgState.ACCEPT);
-        } else {
-            set_field_player(b);
+        if (gamemode == 2) {
+            if (!set_field_player(b)) {
+                tools.showMsgBox("Field already taken", Tools.MsgState.ACCEPT);
+            } else {
+                set_field_player(b);
 
-            check = check_winner();
-            if (check) {
-                if (gamemode == 2) {
-                    tools.showMsgBox("Player " + g_player + " won!", Tools.MsgState.ACCEPT_AND_EXit);
-                }
-                else if (gamemode == 1){
-                    if (g_player == 2) {
-                        tools.showMsgBox("Computer won!", Tools.MsgState.ACCEPT_AND_EXit);
+                check = check_winner();
+                if (check) {
+                    if (gamemode == 2) {
+                        tools.showMsgBox("Player " + g_player + " won!", Tools.MsgState.ACCEPT_AND_EXit);
+                    } else if (gamemode == 1) {
+                        if (g_player == 2) {
+                            tools.showMsgBox("Computer won!", Tools.MsgState.ACCEPT_AND_EXit);
 
-                    } else {
-                        tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
+                        } else {
+                            tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
 
+                        }
                     }
                 }
-            }
-            if (!check && move_count == 9) {
-                tools.showMsgBox("Tied!", Tools.MsgState.ACCEPT_AND_EXit);
-            }
+                if (!check && move_count == 9) {
+                    tools.showMsgBox("Tied!", Tools.MsgState.ACCEPT_AND_EXit);
+                }
 
-            if (g_player == 1) {
-                g_player = 2;
-            } else if (g_player == 2) {
-                g_player = 1;
-            }
+                if (g_player == 1) {
+                    g_player = 2;
+                } else if (g_player == 2) {
+                    g_player = 1;
+                }
 
 
-            if (gamemode == 1) {
-                player_view.setText("Current Player: Computer");
-            } else {
-                player_view.setText("Current player: " + g_player);
+                if (gamemode == 1) {
+                    player_view.setText("Current Player: Computer");
+                } else {
+                    player_view.setText("Current player: " + g_player);
+                }
             }
         }
+
+        if(gamemode == 3){
+
+
+        }
+
     }
 
     private void cpu_move() {

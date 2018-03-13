@@ -25,9 +25,7 @@ public class StartScreen extends AppCompatActivity {
         Button b_multi_web = (Button) findViewById(R.id.b_multi_web);
         Button b_logout = (Button) findViewById(R.id.b_logout);
 
-        if(LogIn.connected){
-            b_multi_web.setEnabled(false);
-        }
+
 
         b_single.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +46,8 @@ public class StartScreen extends AppCompatActivity {
         b_multi_web.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 startActivity(new Intent(StartScreen.this, TicTacToe.class));
                 TicTacToe.gamemode = 3;
             }
