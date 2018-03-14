@@ -223,7 +223,7 @@ public class TicTacToe extends AppCompatActivity {
 
                 new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
 
-
+                refresh();
             }
             else{
 
@@ -240,7 +240,7 @@ public class TicTacToe extends AppCompatActivity {
                     Thread.sleep(500);
 
                 }
-
+                refresh();
 
 
 
