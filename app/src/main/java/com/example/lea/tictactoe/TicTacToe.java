@@ -107,14 +107,30 @@ public class TicTacToe extends AppCompatActivity {
                         System.out.println("TICK");
                         String res2 = (new BackgroundTask("getGame", con).execute("select id, flag from game where id = " + Tools.game + ";")).get();
                         flag_check = Integer.parseInt(tools.parse("flag", res2));
-                        refresh();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                try {
+                                    refresh();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+
+
+
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-            }, 1000, 200);
+            }, 1000, 3000);
 
         }
     }
@@ -226,7 +242,7 @@ public class TicTacToe extends AppCompatActivity {
                 String query2 = "update field set col" + y + " = " + Tools.flag + " where row = " + x + ";";
 
                 new BackgroundTask("addData", this).execute(query2);
-                refresh();
+
 
                 int temp = 0;
                 if (Tools.flag == 1) {
@@ -372,20 +388,20 @@ public class TicTacToe extends AppCompatActivity {
 
 
     public void refresh() throws ExecutionException, InterruptedException {
-        System.out.println("REFRESH");
-        for (int i = 0; i < 3 ; i++){
-            for(int j = 0; j < 3; j++){
-                String query = "select row, col"+j+ " from field where row = "+ i+";";
 
-                String res = new BackgroundTask("getField", this).execute(query).get();
+        System.out.println("REFRESH");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                String query = "select row, col" + j + " from field where row = " + i + ";";
+
+                String res = new BackgroundTask("getField", con).execute(query).get();
 
 
                 int col = Integer.parseInt(tools.parse("column", res));
 
-                if (col == 1){
+                if (col == 1) {
                     buttons[i][j].setBackgroundColor(Color.RED);
-                }
-                else if (col == 2){
+                } else if (col == 2) {
                     buttons[i][j].setBackgroundColor(Color.YELLOW);
                 }
 
@@ -394,8 +410,6 @@ public class TicTacToe extends AppCompatActivity {
         }
 
     }
-
-
 
 }
 
