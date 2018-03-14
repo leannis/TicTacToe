@@ -98,7 +98,20 @@ public class TicTacToe extends AppCompatActivity {
             }
         }
         if(gamemode == 3) {
-
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        System.out.println("TICK");
+                        refresh();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, 2500, 1500);
 
         }
     }
@@ -212,6 +225,7 @@ public class TicTacToe extends AppCompatActivity {
 
                 new BackgroundTask("addData", this).execute(query2);
 
+
                 int temp = 0;
                 if (Tools.flag == 1) {
                     temp = 2;
@@ -222,17 +236,8 @@ public class TicTacToe extends AppCompatActivity {
 
                 new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
 
-                refresh();
 
                 int flag_check=0;
-                while (flag_check != tools.flag) {
-                    String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
-                    flag_check = Integer.parseInt(tools.parse("flag", res2));
-                    refresh();
-
-                    Thread.sleep(500);
-
-                }
 
 
             } else {
@@ -246,7 +251,7 @@ public class TicTacToe extends AppCompatActivity {
                 while (flag_check != tools.flag) {
                     String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
                     flag_check = Integer.parseInt(tools.parse("flag", res2));
-                    refresh();
+
 
 
                     Thread.sleep(500);
