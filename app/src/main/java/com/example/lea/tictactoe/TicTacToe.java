@@ -115,12 +115,14 @@ public class TicTacToe extends AppCompatActivity {
                                     refresh();
                                     boolean check = check_winner();
                                     if(check){
-                                        if(flag_check == 1){
-                                            tools.showMsgBox("Player 1 hat gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
+                                        timer.cancel();
+                                        if(flag_check == Tools.flag){
+                                            tools.showMsgBox("Du hast gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
                                         }
                                         else{
-                                            tools.showMsgBox("Playe 2 hat gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
+                                            tools.showMsgBox("Du hast verloren", Tools.MsgState.ACCEPT_AND_EXit);
                                         }
+
                                     }
                                 } catch (ExecutionException e) {
                                     e.printStackTrace();
