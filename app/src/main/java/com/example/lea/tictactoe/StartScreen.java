@@ -1,5 +1,6 @@
 package com.example.lea.tictactoe;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ public class StartScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_start_screen);
-
+        final Context con = this;
         tools = new Tools(this);
 
         Button b_single = (Button) findViewById(R.id.b_single);
@@ -67,7 +68,9 @@ public class StartScreen extends AppCompatActivity {
         b_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new BackgroundTask("addData", con).execute("update users set logged = 0 where user = '"+Tools.logged_user+"';");
                 tools.showMsgBox("Logout?", Tools.MsgState.LOGOUT);
+
             }
         });
     }
@@ -76,9 +79,11 @@ public class StartScreen extends AppCompatActivity {
     public void onBackPressed() {
         if(LogIn.connected){
             startActivity(new Intent(StartScreen.this, LogIn.class));
+            new BackgroundTask("addData", getParent()).execute("update users set logged = 0 where user = '"+Tools.logged_user+"';");
         }
         else if (!LogIn.connected){
             tools.showMsgBox("Do you really want to exit?", Tools.MsgState.EXIT);
+
         }
     }
 

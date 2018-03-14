@@ -109,9 +109,33 @@ public class LogIn extends AppCompatActivity {
                         tools.showMsgBox("Username and/or password not correct!", Tools.MsgState.ACCEPT);
                     }
                     else{
-                        Tools.logged_user = user;
-                        startActivity(new Intent(LogIn.this, StartScreen.class));
-                        finish();
+                        String res_logged = "";
+                        try {
+                            res_logged = new BackgroundTask("getUser", con).execute("select user, password, logged from users where user='" + user + "' and password = '"+password+"';").get();
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("print res_logged: "+res_logged);
+                        String debug = tools.parse("logged", res_logged);
+                        System.out.println("DEBUG nach parse: " + debug);
+
+
+                        int logged = Integer.parseInt(debug);
+                        if (logged == 1) {
+                            tools.showMsgBox("You're already logged in!", Tools.MsgState.ACCEPT);
+                        }
+                        else{
+                            String query = "update users set logged = 1 where user='" + user + "' and password = '" + password + "';";
+                            System.out.println("SSSS: " + query);
+                            new BackgroundTask("addData", con).execute(query);
+                            Tools.logged_user = user;
+                            startActivity(new Intent(LogIn.this, StartScreen.class));
+                            finish();
+                        }
+
                     }
 
                 }
