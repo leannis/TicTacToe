@@ -272,7 +272,15 @@ public class TicTacToe extends AppCompatActivity {
                     }
 
 
+                    String str_mc = new BackgroundTask("getGame", this).execute("select id, flag, move_count from game where id = "+Tools.game+";").get();
+                     move_count = Integer.parseInt(str_mc)+1;
+
+
+
+
+                    new BackgroundTask("addDate", this).execute("update game set move_count = " + move_count + " where id = " + Tools.game + ";");
                     new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
+
 
                 }
                 else{
@@ -425,11 +433,11 @@ public class TicTacToe extends AppCompatActivity {
 
                 if (col == 1) {
                     buttons[i][j].setBackgroundColor(Color.RED);
-                    move_count++;
+
 
                 } else if (col == 2) {
                     buttons[i][j].setBackgroundColor(Color.YELLOW);
-                    move_count++;
+
 
                 }
 
