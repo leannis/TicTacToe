@@ -1,6 +1,7 @@
 package com.example.lea.tictactoe;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -32,12 +33,12 @@ public class TicTacToe extends AppCompatActivity {
 
     Timer timer;
 
-
+    Context con = this;
     static int gamemode;
     // 1:   single
     // 2:   multi
     // 3:   multi web
-
+        int flag_check;
     int move_count = 0;
     Tools tools;
 
@@ -104,6 +105,8 @@ public class TicTacToe extends AppCompatActivity {
                 public void run() {
                     try {
                         System.out.println("TICK");
+                        String res2 = (new BackgroundTask("getGame", con).execute("select id, flag from game where id = " + Tools.game + ";")).get();
+                        flag_check = Integer.parseInt(tools.parse("flag", res2));
                         refresh();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -111,7 +114,7 @@ public class TicTacToe extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-            }, 1000, 1000);
+            }, 1000, 200);
 
         }
     }
@@ -202,10 +205,9 @@ public class TicTacToe extends AppCompatActivity {
             String res = new BackgroundTask("getGame", this).execute(query).get();
 
 
-            int flag_db = Integer.parseInt(tools.parse("flag", res));
-            System.out.println("DB FLAG: " + flag_db + "\nDein Flag: " + Tools.flag);
 
-            if (flag_db == Tools.flag) {
+
+            if (flag_check == Tools.flag) {
                 System.out.println("DU BIST DRAN");
 
                 int x = 0, y = 0;
@@ -237,27 +239,13 @@ public class TicTacToe extends AppCompatActivity {
                 new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
 
 
-                int flag_check=0;
+
 
 
             } else {
 
 
                 System.out.println("DU BIST NICHT DRAN");
-
-
-                int flag_check = 0;
-
-                while (flag_check != tools.flag) {
-                    String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
-                    flag_check = Integer.parseInt(tools.parse("flag", res2));
-
-                    refresh();
-
-                    Thread.sleep(500);
-
-
-                }
 
 
             }
