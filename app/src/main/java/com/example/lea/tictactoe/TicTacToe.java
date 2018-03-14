@@ -178,56 +178,12 @@ public class TicTacToe extends AppCompatActivity {
             System.out.println("DB FLAG: " + flag_db + "\nDein Flag: " + Tools.flag);
 
             if(flag_db == Tools.flag){
-
-                tools.showToast("It's your turn");
-
-                int x = 0,y = 0;
-
-                for (int i = 0; i < 3; i++){
-                    for (int j = 0; j < 3; j ++){
-                        if ( buttons[i][j].getId() == b.getId()){
-                            System.out.println(i + " " + j);
-                            x=i;
-                            y=j;
-                            break;
-                        }
-                    }
-                }
-                String query2 = "update field set col"+y+" = "+Tools.flag+" where row = "+ x+";";
-                System.out.println("QUERY 2 : " + query2);
-                new BackgroundTask("addData", this).execute(query2);
-
-                int temp = 0;
-                if(Tools.flag == 1){
-                    temp = 2;
-                }
-                else if (Tools.flag == 2){
-                    temp = 1;
-                }
-
-
-                new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
-
-                player_move(b);
+                doMove(b);
             }
             else{
 
-                tools.showToast("It's not your turn");
-
-
-                int flag_check = 0;
-
-                while(flag_check != tools.flag){
-                    String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
-                    flag_check = Integer.parseInt(tools.parse("flag", res2));
-                    Thread.sleep(500);
-                }
-
-                System.out.println("IM AWAKE");
 
             }
-
-
 
         }
 
@@ -251,6 +207,58 @@ public class TicTacToe extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void awaitMove(Button b) throws ExecutionException, InterruptedException {
+
+        tools.showToast("It's not your turn");
+
+
+        int flag_check = 0;
+
+        while(flag_check != tools.flag){
+            String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
+            flag_check = Integer.parseInt(tools.parse("flag", res2));
+            Thread.sleep(500);
+        }
+
+        System.out.println("IM AWAKE");
+        doMove(b);
+    }
+
+    private void doMove(Button b) throws ExecutionException, InterruptedException {
+
+        tools.showToast("It's your turn");
+
+        int x = 0,y = 0;
+
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j ++){
+                if ( buttons[i][j].getId() == b.getId()){
+                    System.out.println(i + " " + j);
+                    x=i;
+                    y=j;
+                    break;
+                }
+            }
+        }
+        String query2 = "update field set col"+y+" = "+Tools.flag+" where row = "+ x+";";
+        System.out.println("QUERY 2 : " + query2);
+        new BackgroundTask("addData", this).execute(query2);
+
+        int temp = 0;
+        if(Tools.flag == 1){
+            temp = 2;
+        }
+        else if (Tools.flag == 2){
+            temp = 1;
+        }
+
+
+        new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
+
+        player_move(b);
+        awaitMove(b);
     }
 
     private boolean checkCols() {
@@ -351,7 +359,7 @@ public class TicTacToe extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         String query = "delete from game where id = '"+Tools.game+"';";
-
+        new BackgroundTask("addData", getParent()).execute("update users set logged = 0 where user = '"+Tools.logged_user+"';");
         new BackgroundTask("addData", this).execute(query);
         tools.showMsgBox("Exit app?", Tools.MsgState.EXIT);
     }
@@ -380,6 +388,8 @@ public class TicTacToe extends AppCompatActivity {
         }
 
     }
+
+
 
 }
 
