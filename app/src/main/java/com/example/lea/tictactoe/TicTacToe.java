@@ -23,7 +23,7 @@ public class TicTacToe extends AppCompatActivity {
     public int g_player = 1;
     Button buttons[][] = new Button[3][3];
     ColorDrawable colors[][] = new ColorDrawable[3][3];
-
+    int check_winner;
     Boolean check = false;
 
     Random rand = new Random();
@@ -111,12 +111,14 @@ public class TicTacToe extends AppCompatActivity {
                             public void run() {
 
                                 try {
+                                    String res2 = (new BackgroundTask("getGame", con).execute("select id, flag from game where id = " + Tools.game + ";")).get();
+                                    flag_check = Integer.parseInt(tools.parse("flag", res2));
                                     refresh();
                                     boolean check = check_winner();
                                     if (check) {
                                         timer.cancel();
                                         System.out.println(flag_check + "---" + Tools.flag);
-                                        if (flag_check == Tools.flag) {
+                                        if (check_winner == Tools.flag) {
 
                                             tools.showMsgBox("Du hast gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
                                         } else {
@@ -276,8 +278,7 @@ public class TicTacToe extends AppCompatActivity {
 
                     System.out.println("MOVE_COUNT" + move_count);
 
-                    String res2 = (new BackgroundTask("getGame", con).execute("select id, flag from game where id = " + Tools.game + ";")).get();
-                    flag_check = Integer.parseInt(tools.parse("flag", res2));
+                    check_winner = flag_check;
 
 
                     new BackgroundTask("addData", this).execute("update game set move_count = " + move_count + " where id = " + Tools.game + ";");
