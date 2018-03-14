@@ -85,6 +85,9 @@ public  class Tools {
                 break;
 
             case ACCEPT_AND_EXit:
+
+                new BackgroundTask("addData", con).execute("update field set col0 = 0, col1 = 0, col2 = 0;");
+                new BackgroundTask("addData", con).execute("delete from game");
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
