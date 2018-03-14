@@ -223,6 +223,7 @@ public class TicTacToe extends AppCompatActivity {
         }
 
         System.out.println("IM AWAKE");
+        refresh();
         doMove(b);
     }
 
@@ -257,7 +258,7 @@ public class TicTacToe extends AppCompatActivity {
 
         new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
 
-        player_move(b);
+        refresh();
         awaitMove(b);
     }
 
@@ -319,11 +320,7 @@ public class TicTacToe extends AppCompatActivity {
             }
         }
 
-        if (gamemode == 3) {
 
-
-            refresh();
-        }
 
     }
 
