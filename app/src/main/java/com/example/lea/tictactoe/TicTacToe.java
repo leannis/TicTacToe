@@ -117,9 +117,11 @@ public class TicTacToe extends AppCompatActivity {
                                     if(check){
                                         timer.cancel();
                                         if(flag_check != Tools.flag){
+                                            new BackgroundTask("addData", con).execute(" update field set col0 = 0, col1 = 0, col2 = 0; delete from game;");
                                             tools.showMsgBox("Du hast gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
                                         }
                                         else{
+                                            new BackgroundTask("addData", con).execute(" update field set col0 = 0, col1 = 0, col2 = 0; delete from game;");
                                             tools.showMsgBox("Du hast verloren", Tools.MsgState.ACCEPT_AND_EXit);
                                         }
 
@@ -127,6 +129,7 @@ public class TicTacToe extends AppCompatActivity {
                                     }
                                     else if(!check && move_count == 9){
                                         timer.cancel();
+                                        new BackgroundTask("addData", con).execute(" update field set col0 = 0, col1 = 0, col2 = 0; delete from game;");
                                         tools.showMsgBox("Unentschieden", Tools.MsgState.ACCEPT_AND_EXit);
                                     }
                                 } catch (ExecutionException e) {
@@ -137,6 +140,14 @@ public class TicTacToe extends AppCompatActivity {
 
                             }
                         });
+
+
+
+
+
+
+
+
 
 
 
