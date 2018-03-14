@@ -121,15 +121,18 @@ public class TicTacToe extends AppCompatActivity {
                                     if (check) {
                                         timer.cancel();
                                         System.out.println(check_winner + "---" + Tools.flag);
-                                        if (check_winner == Tools.flag) {
+                                        if (check_winner != Tools.flag) {
 
                                             tools.showMsgBox("Du hast gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
+                                            new BackgroundTask("addData", con).execute("update field set col0 = 0, col1 = 0, col2 = 0;");
+                                            new BackgroundTask("addData", con).execute("delete from game;");
                                         } else {
 
                                             tools.showMsgBox("Du hast verloren", Tools.MsgState.ACCEPT_AND_EXit);
+                                            new BackgroundTask("addData", con).execute("update field set col0 = 0, col1 = 0, col2 = 0;");
+                                            new BackgroundTask("addData", con).execute("delete from game;");
                                         }
-                                        new BackgroundTask("addData", con).execute("update field set col0 = 0, col1 = 0, col2 = 0;");
-                                        new BackgroundTask("addData", con).execute("delete from game;");
+
 
                                     } else if (!check && move_count == 9) {
                                         timer.cancel();
