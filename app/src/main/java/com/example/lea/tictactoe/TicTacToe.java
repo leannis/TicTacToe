@@ -161,7 +161,7 @@ public class TicTacToe extends AppCompatActivity {
         if (gamemode == 1) {
 
             player_move(b);
-
+            System.out.println(g_player);
 
             try {
                 Thread.sleep(1000);
@@ -170,9 +170,11 @@ public class TicTacToe extends AppCompatActivity {
             }
 
 
+
             if (move_count != 9 && !check) {
                 cpu_move();
             }
+            System.out.println(g_player);
 
         }
 
@@ -180,8 +182,7 @@ public class TicTacToe extends AppCompatActivity {
             player_move(b);
         }
 
-        if(gamemode == 3){
-
+        if (gamemode == 3) {
 
 
             String query = "select id, flag from game where id = " + Tools.game + ";";
@@ -189,52 +190,50 @@ public class TicTacToe extends AppCompatActivity {
             String res = new BackgroundTask("getGame", this).execute(query).get();
 
 
-
             int flag_db = Integer.parseInt(tools.parse("flag", res));
             System.out.println("DB FLAG: " + flag_db + "\nDein Flag: " + Tools.flag);
 
-            if(flag_db == Tools.flag){
+            if (flag_db == Tools.flag) {
                 System.out.println("DU BIST DRAN");
 
-                int x = 0,y = 0;
+                int x = 0, y = 0;
 
-                for (int i = 0; i < 3; i++){
-                    for (int j = 0; j < 3; j ++){
-                        if ( buttons[i][j].getId() == b.getId()){
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        if (buttons[i][j].getId() == b.getId()) {
                             System.out.println(i + " " + j);
-                            x=i;
-                            y=j;
+                            x = i;
+                            y = j;
                             break;
                         }
                     }
                 }
-                String query2 = "update field set col"+y+" = "+Tools.flag+" where row = "+ x+";";
+                String check = new BackgroundTask("getField", this).execute("select row, col" + j + " from field where row = " + x + ";").get();
+                int i_check = Integer.parseInt(tools.parse("col", check));
 
-                new BackgroundTask("addData", this).execute(query2);
+                if (i_check == 0) {
+                    String query2 = "update field set col" + y + " = " + Tools.flag + " where row = " + x + ";";
 
-                int temp = 0;
-                if(Tools.flag == 1){
-                    temp = 2;
-                }
-                else if (Tools.flag == 2){
-                    temp = 1;
-                }
+                    new BackgroundTask("addData", this).execute(query2);
+
+                    int temp = 0;
+                    if (Tools.flag == 1) {
+                        temp = 2;
+                    } else if (Tools.flag == 2) {
+                        temp = 1;
+                    }
 
 
-                new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
+                    new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
 
-                refresh();
-                int flag_check = 0;
-                while(flag_check != tools.flag){
-                    String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
-                    flag_check = Integer.parseInt(tools.parse("flag", res2));
                     refresh();
-                    Thread.sleep(500);
 
+
+
+                } else {
+                    tools.showMsgBox("Feld schon besetzt.", Tools.MsgState.ACCEPT);
                 }
-            }
-            else{
-
+            } else {
 
 
                 System.out.println("DU BIST NICHT DRAN");
@@ -242,7 +241,7 @@ public class TicTacToe extends AppCompatActivity {
 
                 int flag_check = 0;
 
-                while(flag_check != tools.flag){
+                while (flag_check != tools.flag) {
                     String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
                     flag_check = Integer.parseInt(tools.parse("flag", res2));
                     refresh();
@@ -254,12 +253,10 @@ public class TicTacToe extends AppCompatActivity {
                 }
 
 
-
-
             }
 
-        }
 
+        }
     }
 
     public boolean check_winner() {
@@ -303,7 +300,7 @@ public class TicTacToe extends AppCompatActivity {
     }
 
     private void player_move(Button b) throws ExecutionException, InterruptedException {
-        if (gamemode == 2) {
+
             if (!set_field_player(b)) {
                 tools.showMsgBox("Field already taken", Tools.MsgState.ACCEPT);
             } else {
@@ -314,10 +311,7 @@ public class TicTacToe extends AppCompatActivity {
                     if (gamemode == 2) {
                         tools.showMsgBox("Player " + g_player + " won!", Tools.MsgState.ACCEPT_AND_EXit);
                     } else if (gamemode == 1) {
-                        if (g_player == 2) {
-                            tools.showMsgBox("Computer won!", Tools.MsgState.ACCEPT_AND_EXit);
 
-                        } else {
                             tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
 
                         }
@@ -333,18 +327,18 @@ public class TicTacToe extends AppCompatActivity {
                     g_player = 1;
                 }
 
-
                 if (gamemode == 1) {
                     player_view.setText("Current Player: Computer");
                 } else {
                     player_view.setText("Current player: " + g_player);
                 }
             }
-        }
 
 
 
-    }
+
+
+
 
     private void cpu_move() {
 
@@ -359,19 +353,17 @@ public class TicTacToe extends AppCompatActivity {
         }
         check = check_winner();
         if (check) {
-            if (g_player == 2) {
+
                 tools.showMsgBox("Computer won!", Tools.MsgState.ACCEPT_AND_EXit);
 
-            } else {
-                tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
 
-            }
         }
         if (!check && move_count == 9) {
             tools.showMsgBox("Tied!", Tools.MsgState.ACCEPT);
         }
 
         player_view.setText("Current player: Player 1");
+        g_player = 1;
 
     }
 
