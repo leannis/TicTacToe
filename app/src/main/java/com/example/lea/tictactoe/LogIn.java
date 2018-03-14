@@ -106,7 +106,8 @@ public class LogIn extends AppCompatActivity {
 
                         int logged = Integer.parseInt(debug);
                         if (logged == 1) {
-                            tools.showMsgBox("You're already logged in!", Tools.MsgState.ACCEPT);
+                            tools.showToast("You're already logged in!");
+                            startActivity(new Intent(LogIn.this, StartScreen.class));
                         } else {
                             String query = "update users set logged = 1 where user='" + user + "' " +
                                     "and password = '" + password + "';";
@@ -121,7 +122,6 @@ public class LogIn extends AppCompatActivity {
                 et_pw.setText(null);
                 et_user.setText(null);
             }
-
         });
     }
 
