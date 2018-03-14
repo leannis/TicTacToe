@@ -113,6 +113,15 @@ public class TicTacToe extends AppCompatActivity {
 
                                 try {
                                     refresh();
+                                    boolean check = check_winner();
+                                    if(check){
+                                        if(flag_check == 1){
+                                            tools.showMsgBox("Player 1 hat gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
+                                        }
+                                        else{
+                                            tools.showMsgBox("Playe 2 hat gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
+                                        }
+                                    }
                                 } catch (ExecutionException e) {
                                     e.printStackTrace();
                                 } catch (InterruptedException e) {
