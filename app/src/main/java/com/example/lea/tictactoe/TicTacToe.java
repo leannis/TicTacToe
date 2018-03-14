@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Random;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
@@ -29,7 +30,7 @@ public class TicTacToe extends AppCompatActivity {
     TextView player_view;
     int i, j;
 
-    Timer timer = new Timer();
+    Timer timer;
 
 
     static int gamemode;
@@ -96,19 +97,10 @@ public class TicTacToe extends AppCompatActivity {
                 });
             }
         }
+        if(gamemode == 3) {
 
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    refresh();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 1000, 1000);
+
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -190,6 +182,8 @@ public class TicTacToe extends AppCompatActivity {
 
         if(gamemode == 3){
 
+
+
             String query = "select id, flag from game where id = " + Tools.game + ";";
 
             String res = new BackgroundTask("getGame", this).execute(query).get();
@@ -229,9 +223,11 @@ public class TicTacToe extends AppCompatActivity {
 
                 new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
 
-                refresh();
+
             }
             else{
+
+
 
                 System.out.println("DU BIST NICHT DRAN");
 
@@ -242,8 +238,9 @@ public class TicTacToe extends AppCompatActivity {
                     String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
                     flag_check = Integer.parseInt(tools.parse("flag", res2));
                     Thread.sleep(500);
-                    refresh();
+
                 }
+
 
 
             }
@@ -272,59 +269,7 @@ public class TicTacToe extends AppCompatActivity {
         return false;
     }
 
-    private void awaitMove(Button b) throws ExecutionException, InterruptedException {
 
-        System.out.println("DU BIST NICHT DRAN");
-
-
-        int flag_check = 0;
-
-        while(flag_check != tools.flag){
-            String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
-            flag_check = Integer.parseInt(tools.parse("flag", res2));
-            Thread.sleep(500);
-            refresh();
-        }
-
-
-
-        doMove(b);
-    }
-
-    private void doMove(Button b) throws ExecutionException, InterruptedException {
-
-        System.out.println("DU BIST DRAN");
-
-        int x = 0,y = 0;
-
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j ++){
-                if ( buttons[i][j].getId() == b.getId()){
-                    System.out.println(i + " " + j);
-                    x=i;
-                    y=j;
-                    break;
-                }
-            }
-        }
-        String query2 = "update field set col"+y+" = "+Tools.flag+" where row = "+ x+";";
-
-        new BackgroundTask("addData", this).execute(query2);
-
-        int temp = 0;
-        if(Tools.flag == 1){
-            temp = 2;
-        }
-        else if (Tools.flag == 2){
-            temp = 1;
-        }
-
-
-        new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
-
-        refresh();
-        awaitMove(b);
-    }
 
     private boolean checkCols() {
         for (int i = 0; i < 3; i++) {
