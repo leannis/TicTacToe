@@ -58,7 +58,7 @@ public class SignUp extends Activity {
                     int ret = pwm.checkUserRegister(user);
                     System.out.println(ret);
                     if (ret == -1) {
-                        tools.showMsgBox("This Username has already been taken.",Tools.MsgState.ACCEPT);
+                        tools.showMsgBox("This Username has already been taken.", Tools.MsgState.ACCEPT);
                     } else if (ret == 1) {
 
                         if (!(pw1.equals(pw2))) {

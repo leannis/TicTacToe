@@ -27,7 +27,7 @@ public class TicTacToe extends AppCompatActivity {
     Boolean check = false;
 
     Random rand = new Random();
-    String res2="";
+    String res2 = "";
     TextView player_view;
     int i, j;
 
@@ -38,7 +38,7 @@ public class TicTacToe extends AppCompatActivity {
     // 1:   single
     // 2:   multi
     // 3:   multi web
-        int flag_check;
+    int flag_check;
     int move_count = 0;
     Tools tools;
 
@@ -52,7 +52,7 @@ public class TicTacToe extends AppCompatActivity {
 
         Button homeButton = (Button) findViewById(R.id.b_home);
 
-        if(gamemode == 3){
+        if (gamemode == 3) {
 
             tools.showMsgBox("Dein Spiel ist " + Tools.game, Tools.MsgState.ACCEPT);
         }
@@ -98,14 +98,14 @@ public class TicTacToe extends AppCompatActivity {
                 });
             }
         }
-        if(gamemode == 3) {
+        if (gamemode == 3) {
             timer = new Timer();
 
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     try {
-                         res2 = (new BackgroundTask("getGame", con).execute("select id, flag, move_count from game where id = " + Tools.game + ";")).get();
+                        res2 = (new BackgroundTask("getGame", con).execute("select id, flag, move_count from game where id = " + Tools.game + ";")).get();
                         System.out.println(res2);
                         if (res2.length() > 0) {
                             flag_check = Integer.parseInt(tools.parse("flag", res2));
@@ -117,9 +117,6 @@ public class TicTacToe extends AppCompatActivity {
                             public void run() {
 
                                 try {
-
-
-
                                     System.out.println("------------------" + flag_check);
 
                                     refresh();
@@ -143,7 +140,6 @@ public class TicTacToe extends AppCompatActivity {
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
-
                             }
                         });
                     } catch (ExecutionException e) {
@@ -151,15 +147,12 @@ public class TicTacToe extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-                    }
-
+                }
 
 
             }, 0, 1000);
-
         }
-        }
+    }
 
     @SuppressLint("SetTextI18n")
     public boolean set_field_player(Button b) {
@@ -172,14 +165,10 @@ public class TicTacToe extends AppCompatActivity {
                 if (g_player == 1) {
                     b.setBackgroundColor(Color.RED);
                     move_count++;
-                    //In die DB schreiben
-
                     return true;
                 } else if (g_player == 2) {
                     b.setBackgroundColor(Color.YELLOW);
-                    //In die DB Schreiben
                     move_count++;
-
                     return true;
                 } else {
                     return false;
@@ -188,32 +177,24 @@ public class TicTacToe extends AppCompatActivity {
             if (gamemode == 1) {
                 b.setBackgroundColor(Color.RED);
                 move_count++;
-                //In die DB schreiben
                 return true;
             }
-
         }
-
         return false;
     }
 
     public boolean set_field_cpu(Button b) {
         ColorDrawable buttonColor = (ColorDrawable) b.getBackground();
 
-
         if (buttonColor.getColor() == -65536 || buttonColor.getColor() == -256) {
             return false;
         } else {
 
             b.setBackgroundColor(Color.YELLOW);
-            //In die DB Schreiben
             move_count++;
-
             return true;
         }
     }
-
-
 
     public void make_move(Button b) throws ExecutionException, InterruptedException {
         if (gamemode == 1) {
@@ -227,12 +208,10 @@ public class TicTacToe extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
             if (move_count != 9 && !check) {
                 cpu_move();
             }
             System.out.println(g_player);
-
         }
 
         if (gamemode == 2) {
@@ -240,14 +219,9 @@ public class TicTacToe extends AppCompatActivity {
         }
 
         if (gamemode == 3) {
-
-
             String query = "select id, flag, move_count from game where id = " + Tools.game + ";";
 
             String res = new BackgroundTask("getGame", this).execute(query).get();
-
-
-
 
             if (flag_check == Tools.flag) {
                 System.out.println("DU BIST DRAN");
@@ -265,14 +239,13 @@ public class TicTacToe extends AppCompatActivity {
                     }
                 }
 
-                String value = new BackgroundTask("getField", con).execute("select row, col"+y+" from field where row = " + x+";").get();
+                String value = new BackgroundTask("getField", con).execute("select row, col" + y + " from field where row = " + x + ";").get();
                 int val = Integer.parseInt(tools.parse("column", value));
 
-                if(val == 0) {
+                if (val == 0) {
                     String query2 = "update field set col" + y + " = " + Tools.flag + " where row = " + x + ";";
 
                     new BackgroundTask("addData", this).execute(query2);
-
 
                     int temp = 0;
                     if (Tools.flag == 1) {
@@ -281,37 +254,19 @@ public class TicTacToe extends AppCompatActivity {
                         temp = 1;
                     }
 
-
-                    String str_mc = new BackgroundTask("getGame", this).execute("select id, flag, move_count from game where id = "+Tools.game+";").get();
-                     move_count = Integer.parseInt(tools.parse("move_count", str_mc))+ 1;
-
+                    String str_mc = new BackgroundTask("getGame", this).execute("select id, flag, move_count from game where id = " + Tools.game + ";").get();
+                    move_count = Integer.parseInt(tools.parse("move_count", str_mc)) + 1;
 
                     System.out.println("MOVE_COUNT" + move_count);
 
-
-
-
                     new BackgroundTask("addData", this).execute("update game set move_count = " + move_count + " where id = " + Tools.game + ";");
                     new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
-
-
+                } else {
+                    tools.showMsgBox("Field already taken", Tools.MsgState.ACCEPT);
                 }
-                else{
-                    tools.showMsgBox("Feld schon belegt", Tools.MsgState.ACCEPT);
-                }
-
-
-
-
             } else {
-
-
-                System.out.println("DU BIST NICHT DRAN");
-
-
+                tools.showToast("It's not your turn!");
             }
-
-
         }
     }
 
@@ -335,8 +290,6 @@ public class TicTacToe extends AppCompatActivity {
         return false;
     }
 
-
-
     private boolean checkCols() {
         for (int i = 0; i < 3; i++) {
             if (checkRowCol(colors[0][i].getColor(), colors[1][i].getColor(), colors[2][i].getColor())) {
@@ -357,43 +310,38 @@ public class TicTacToe extends AppCompatActivity {
 
     private void player_move(Button b) throws ExecutionException, InterruptedException {
 
-            if (!set_field_player(b)) {
-                tools.showMsgBox("Field already taken", Tools.MsgState.ACCEPT);
-            } else {
-                set_field_player(b);
+        if (!set_field_player(b)) {
+            tools.showMsgBox("Field already taken", Tools.MsgState.ACCEPT);
+        } else {
+            set_field_player(b);
 
-                check = check_winner();
-                if (check) {
-                    if (gamemode == 2) {
-                        tools.showMsgBox("Player " + g_player + " won!", Tools.MsgState.ACCEPT_AND_EXit);
-                    } else if (gamemode == 1) {
+            check = check_winner();
+            if (check) {
+                if (gamemode == 2) {
+                    tools.showMsgBox("Player " + g_player + " won!", Tools.MsgState.ACCEPT_AND_EXit);
+                } else if (gamemode == 1) {
 
-                            tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
+                    tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
 
-                        }
-                    }
-                }
-                if (!check && move_count == 9) {
-                    tools.showMsgBox("Tied!", Tools.MsgState.ACCEPT_AND_EXit);
-                }
-
-                if (g_player == 1) {
-                    g_player = 2;
-                } else if (g_player == 2) {
-                    g_player = 1;
-                }
-
-                if (gamemode == 1) {
-                    player_view.setText("Current Player: Computer");
-                } else {
-                    player_view.setText("Current player: " + g_player);
                 }
             }
+        }
+        if (!check && move_count == 9) {
+            tools.showMsgBox("Tied!", Tools.MsgState.ACCEPT_AND_EXit);
+        }
 
+        if (g_player == 1) {
+            g_player = 2;
+        } else if (g_player == 2) {
+            g_player = 1;
+        }
 
-
-
-
+        if (gamemode == 1) {
+            player_view.setText("Current Player: Computer");
+        } else {
+            player_view.setText("Current player: " + g_player);
+        }
+    }
 
 
     private void cpu_move() {
@@ -409,15 +357,11 @@ public class TicTacToe extends AppCompatActivity {
         }
         check = check_winner();
         if (check) {
-
-                tools.showMsgBox("Computer won!", Tools.MsgState.ACCEPT_AND_EXit);
-
-
+            tools.showMsgBox("Computer won!", Tools.MsgState.ACCEPT_AND_EXit);
         }
         if (!check && move_count == 9) {
             tools.showMsgBox("Tied!", Tools.MsgState.ACCEPT);
         }
-
         player_view.setText("Current player: Player 1");
         g_player = 1;
 
@@ -425,12 +369,11 @@ public class TicTacToe extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        String query = "delete from game where id = '"+Tools.game+"';";
-        new BackgroundTask("addData", getParent()).execute("update users set logged = 0 where user = '"+Tools.logged_user+"';");
+        String query = "delete from game where id = '" + Tools.game + "';";
+        new BackgroundTask("addData", getParent()).execute("update users set logged = 0 where user = '" + Tools.logged_user + "';");
         new BackgroundTask("addData", this).execute(query);
         tools.showMsgBox("Exit app?", Tools.MsgState.EXIT);
     }
-
 
     public void refresh() throws ExecutionException, InterruptedException {
 
@@ -441,24 +384,15 @@ public class TicTacToe extends AppCompatActivity {
 
                 String res = new BackgroundTask("getField", con).execute(query).get();
 
-
                 int col = Integer.parseInt(tools.parse("column", res));
 
                 if (col == 1) {
                     buttons[i][j].setBackgroundColor(Color.RED);
 
-
                 } else if (col == 2) {
                     buttons[i][j].setBackgroundColor(Color.YELLOW);
-
-
                 }
-
-
             }
         }
-
     }
-
 }
-
