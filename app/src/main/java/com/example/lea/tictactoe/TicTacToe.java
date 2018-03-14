@@ -111,13 +111,16 @@ public class TicTacToe extends AppCompatActivity {
                             public void run() {
 
                                 try {
-                                    String res2 = (new BackgroundTask("getGame", con).execute("select id, flag from game where id = " + Tools.game + ";")).get();
+                                    String res2 = (new BackgroundTask("getGame", con).execute("select id, flag, move_count from game where id = " + Tools.game + ";")).get();
                                     flag_check = Integer.parseInt(tools.parse("flag", res2));
+
+                                    System.out.println("------------------" + flag_check);
+
                                     refresh();
                                     boolean check = check_winner();
                                     if (check) {
                                         timer.cancel();
-                                        System.out.println(flag_check + "---" + Tools.flag);
+                                        System.out.println(check_winner + "---" + Tools.flag);
                                         if (check_winner == Tools.flag) {
 
                                             tools.showMsgBox("Du hast gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
@@ -232,7 +235,7 @@ public class TicTacToe extends AppCompatActivity {
         if (gamemode == 3) {
 
 
-            String query = "select id, flag from game where id = " + Tools.game + ";";
+            String query = "select id, flag, move_count from game where id = " + Tools.game + ";";
 
             String res = new BackgroundTask("getGame", this).execute(query).get();
 
