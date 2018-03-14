@@ -169,11 +169,11 @@ public class TicTacToe extends AppCompatActivity {
         }
 
         if(gamemode == 3){
-            System.out.println("hallo");
+
             String query = "select id, flag from game where id = " + Tools.game + ";";
-            System.out.println(query);
+
             String res = new BackgroundTask("getGame", this).execute(query).get();
-            System.out.println(res);
+
             int flag_db = Integer.parseInt(tools.parse("flag", res));
             System.out.println("DB FLAG: " + flag_db + "\nDein Flag: " + Tools.flag);
 
@@ -182,6 +182,7 @@ public class TicTacToe extends AppCompatActivity {
             }
             else{
 
+                awaitMove(b);
 
             }
 
@@ -211,7 +212,7 @@ public class TicTacToe extends AppCompatActivity {
 
     private void awaitMove(Button b) throws ExecutionException, InterruptedException {
 
-        tools.showToast("It's not your turn");
+        System.out.println("DU BIST NICHT DRAN");
 
 
         int flag_check = 0;
@@ -222,14 +223,14 @@ public class TicTacToe extends AppCompatActivity {
             Thread.sleep(500);
         }
 
-        System.out.println("IM AWAKE");
+
         refresh();
         doMove(b);
     }
 
     private void doMove(Button b) throws ExecutionException, InterruptedException {
 
-        tools.showToast("It's your turn");
+        System.out.println("DU BIST DRAN");
 
         int x = 0,y = 0;
 
@@ -244,7 +245,7 @@ public class TicTacToe extends AppCompatActivity {
             }
         }
         String query2 = "update field set col"+y+" = "+Tools.flag+" where row = "+ x+";";
-        System.out.println("QUERY 2 : " + query2);
+
         new BackgroundTask("addData", this).execute(query2);
 
         int temp = 0;
@@ -367,9 +368,9 @@ public class TicTacToe extends AppCompatActivity {
         for (int i = 0; i < 3 ; i++){
             for(int j = 0; j < 3; j++){
                 String query = "select row, col"+j+ " from field where row = "+ i+";";
-                System.out.println(query);
+
                 String res = new BackgroundTask("getField", this).execute(query).get();
-                System.out.println(res);
+
 
                 int col = Integer.parseInt(tools.parse("column", res));
 
