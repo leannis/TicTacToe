@@ -130,7 +130,7 @@ public class TicTacToe extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-            }, 1000, 3000);
+            }, 500, 1000);
 
         }
     }
@@ -239,21 +239,29 @@ public class TicTacToe extends AppCompatActivity {
                     }
                 }
 
-                String query2 = "update field set col" + y + " = " + Tools.flag + " where row = " + x + ";";
+                String value = new BackgroundTask("getField", con).execute("select row, col"+y+" from field where row = " + x+";").get();
+                int val = Integer.parseInt(tools.parse("column", value));
 
-                new BackgroundTask("addData", this).execute(query2);
+                if(val == 0) {
+                    String query2 = "update field set col" + y + " = " + Tools.flag + " where row = " + x + ";";
+
+                    new BackgroundTask("addData", this).execute(query2);
 
 
-                int temp = 0;
-                if (Tools.flag == 1) {
-                    temp = 2;
-                } else if (Tools.flag == 2) {
-                    temp = 1;
+                    int temp = 0;
+                    if (Tools.flag == 1) {
+                        temp = 2;
+                    } else if (Tools.flag == 2) {
+                        temp = 1;
+                    }
+
+
+                    new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
+
                 }
-
-
-                new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
-
+                else{
+                    tools.showMsgBox("Feld schon belegt", Tools.MsgState.ACCEPT);
+                }
 
 
 
