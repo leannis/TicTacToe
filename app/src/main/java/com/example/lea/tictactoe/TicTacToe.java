@@ -174,15 +174,57 @@ public class TicTacToe extends AppCompatActivity {
 
             String res = new BackgroundTask("getGame", this).execute(query).get();
 
+
+
             int flag_db = Integer.parseInt(tools.parse("flag", res));
             System.out.println("DB FLAG: " + flag_db + "\nDein Flag: " + Tools.flag);
 
             if(flag_db == Tools.flag){
-                doMove(b);
+                System.out.println("DU BIST DRAN");
+
+                int x = 0,y = 0;
+
+                for (int i = 0; i < 3; i++){
+                    for (int j = 0; j < 3; j ++){
+                        if ( buttons[i][j].getId() == b.getId()){
+                            System.out.println(i + " " + j);
+                            x=i;
+                            y=j;
+                            break;
+                        }
+                    }
+                }
+                String query2 = "update field set col"+y+" = "+Tools.flag+" where row = "+ x+";";
+
+                new BackgroundTask("addData", this).execute(query2);
+
+                int temp = 0;
+                if(Tools.flag == 1){
+                    temp = 2;
+                }
+                else if (Tools.flag == 2){
+                    temp = 1;
+                }
+
+
+                new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
+
+                refresh();
             }
             else{
 
-                awaitMove(b);
+                System.out.println("DU BIST NICHT DRAN");
+
+
+                int flag_check = 0;
+
+                while(flag_check != tools.flag){
+                    String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
+                    flag_check = Integer.parseInt(tools.parse("flag", res2));
+                    Thread.sleep(500);
+                    refresh();
+                }
+
 
             }
 
@@ -221,10 +263,11 @@ public class TicTacToe extends AppCompatActivity {
             String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
             flag_check = Integer.parseInt(tools.parse("flag", res2));
             Thread.sleep(500);
+            refresh();
         }
 
 
-        refresh();
+
         doMove(b);
     }
 
