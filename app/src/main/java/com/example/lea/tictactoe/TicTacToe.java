@@ -116,13 +116,18 @@ public class TicTacToe extends AppCompatActivity {
                                     boolean check = check_winner();
                                     if(check){
                                         timer.cancel();
-                                        if(flag_check == Tools.flag){
+                                        if(flag_check != Tools.flag){
                                             tools.showMsgBox("Du hast gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
                                         }
                                         else{
                                             tools.showMsgBox("Du hast verloren", Tools.MsgState.ACCEPT_AND_EXit);
                                         }
 
+
+                                    }
+                                    else if(!check && move_count == 9){
+                                        timer.cancel();
+                                        tools.showMsgBox("Unentschieden", Tools.MsgState.ACCEPT_AND_EXit);
                                     }
                                 } catch (ExecutionException e) {
                                     e.printStackTrace();
@@ -420,8 +425,12 @@ public class TicTacToe extends AppCompatActivity {
 
                 if (col == 1) {
                     buttons[i][j].setBackgroundColor(Color.RED);
+                    move_count++;
+
                 } else if (col == 2) {
                     buttons[i][j].setBackgroundColor(Color.YELLOW);
+                    move_count++;
+
                 }
 
 
