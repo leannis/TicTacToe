@@ -224,6 +224,14 @@ public class TicTacToe extends AppCompatActivity {
                 new BackgroundTask("addData", this).execute("update game set flag = "+temp+" where id = "+Tools.game+";");
 
                 refresh();
+                int flag_check = 0;
+                while(flag_check != tools.flag){
+                    String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
+                    flag_check = Integer.parseInt(tools.parse("flag", res2));
+                    refresh();
+                    Thread.sleep(500);
+
+                }
             }
             else{
 
@@ -237,8 +245,11 @@ public class TicTacToe extends AppCompatActivity {
                 while(flag_check != tools.flag){
                     String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
                     flag_check = Integer.parseInt(tools.parse("flag", res2));
-                    Thread.sleep(500);
                     refresh();
+
+
+                    Thread.sleep(500);
+
 
                 }
 
@@ -374,7 +385,7 @@ public class TicTacToe extends AppCompatActivity {
 
 
     public void refresh() throws ExecutionException, InterruptedException {
-
+        System.out.println("REFRESH");
         for (int i = 0; i < 3 ; i++){
             for(int j = 0; j < 3; j++){
                 String query = "select row, col"+j+ " from field where row = "+ i+";";
