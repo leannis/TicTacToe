@@ -103,10 +103,9 @@ public class TicTacToe extends AppCompatActivity {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    try {
+
                         System.out.println("TICK");
-                        String res2 = (new BackgroundTask("getGame", con).execute("select id, flag from game where id = " + Tools.game + ";")).get();
-                        flag_check = Integer.parseInt(tools.parse("flag", res2));
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -114,22 +113,23 @@ public class TicTacToe extends AppCompatActivity {
                                 try {
                                     refresh();
                                     boolean check = check_winner();
-                                    if(check){
+                                    if (check) {
                                         timer.cancel();
-                                        if(flag_check != Tools.flag){
-                                            new BackgroundTask("addData", con).execute(" update field set col0 = 0, col1 = 0, col2 = 0; delete from game;");
+                                        System.out.println(flag_check + "---" + Tools.flag);
+                                        if (flag_check == Tools.flag) {
+
                                             tools.showMsgBox("Du hast gewonnen", Tools.MsgState.ACCEPT_AND_EXit);
-                                        }
-                                        else{
-                                            new BackgroundTask("addData", con).execute(" update field set col0 = 0, col1 = 0, col2 = 0; delete from game;");
+                                        } else {
+
                                             tools.showMsgBox("Du hast verloren", Tools.MsgState.ACCEPT_AND_EXit);
                                         }
+                                        new BackgroundTask("addData", con).execute("update field set col0 = 0, col1 = 0, col2 = 0;");
+                                        new BackgroundTask("addData", con).execute("delete from game;");
 
-
-                                    }
-                                    else if(!check && move_count == 9){
+                                    } else if (!check && move_count == 9) {
                                         timer.cancel();
-                                        new BackgroundTask("addData", con).execute(" update field set col0 = 0, col1 = 0, col2 = 0; delete from game;");
+                                        new BackgroundTask("addData", con).execute("update field set col0 = 0, col1 = 0, col2 = 0;");
+                                        new BackgroundTask("addData", con).execute("delete from game;");
                                         tools.showMsgBox("Unentschieden", Tools.MsgState.ACCEPT_AND_EXit);
                                     }
                                 } catch (ExecutionException e) {
@@ -142,25 +142,12 @@ public class TicTacToe extends AppCompatActivity {
                         });
 
 
-
-
-
-
-
-
-
-
-
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
-                }
+
             }, 500, 1000);
 
         }
-    }
+        }
 
     @SuppressLint("SetTextI18n")
     public boolean set_field_player(Button b) {
@@ -288,6 +275,10 @@ public class TicTacToe extends AppCompatActivity {
 
 
                     System.out.println("MOVE_COUNT" + move_count);
+
+                    String res2 = (new BackgroundTask("getGame", con).execute("select id, flag from game where id = " + Tools.game + ";")).get();
+                    flag_check = Integer.parseInt(tools.parse("flag", res2));
+
 
                     new BackgroundTask("addData", this).execute("update game set move_count = " + move_count + " where id = " + Tools.game + ";");
                     new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
