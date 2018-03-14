@@ -8,9 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import android.widget.TextView;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 public class TicTacToe extends AppCompatActivity {
@@ -25,6 +28,9 @@ public class TicTacToe extends AppCompatActivity {
 
     TextView player_view;
     int i, j;
+
+    Timer timer = new Timer();
+
 
     static int gamemode;
     // 1:   single
@@ -90,6 +96,19 @@ public class TicTacToe extends AppCompatActivity {
                 });
             }
         }
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    refresh();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1000, 1000);
     }
 
     @SuppressLint("SetTextI18n")
@@ -143,6 +162,7 @@ public class TicTacToe extends AppCompatActivity {
             return true;
         }
     }
+
 
 
     public void make_move(Button b) throws ExecutionException, InterruptedException {
