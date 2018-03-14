@@ -224,6 +224,16 @@ public class TicTacToe extends AppCompatActivity {
 
                 refresh();
 
+                int flag_check=0;
+                while (flag_check != tools.flag) {
+                    String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
+                    flag_check = Integer.parseInt(tools.parse("flag", res2));
+                    refresh();
+
+                    Thread.sleep(500);
+
+                }
+
 
             } else {
 
