@@ -111,7 +111,7 @@ public class TicTacToe extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-            }, 2500, 1500);
+            }, 1000, 1000);
 
         }
     }
@@ -224,7 +224,7 @@ public class TicTacToe extends AppCompatActivity {
                 String query2 = "update field set col" + y + " = " + Tools.flag + " where row = " + x + ";";
 
                 new BackgroundTask("addData", this).execute(query2);
-
+                refresh();
 
                 int temp = 0;
                 if (Tools.flag == 1) {
@@ -252,7 +252,7 @@ public class TicTacToe extends AppCompatActivity {
                     String res2 = (new BackgroundTask("getGame", this).execute("select id, flag from game where id = " + Tools.game + ";")).get();
                     flag_check = Integer.parseInt(tools.parse("flag", res2));
 
-
+                    refresh();
 
                     Thread.sleep(500);
 
