@@ -273,12 +273,12 @@ public class TicTacToe extends AppCompatActivity {
 
 
                     String str_mc = new BackgroundTask("getGame", this).execute("select id, flag, move_count from game where id = "+Tools.game+";").get();
-                     move_count = Integer.parseInt(str_mc)+1;
+                     move_count = Integer.parseInt(tools.parse("move_count", str_mc))+ 1;
 
 
+                    System.out.println("MOVE_COUNT" + move_count);
 
-
-                    new BackgroundTask("addDate", this).execute("update game set move_count = " + move_count + " where id = " + Tools.game + ";");
+                    new BackgroundTask("addData", this).execute("update game set move_count = " + move_count + " where id = " + Tools.game + ";");
                     new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
 
 
