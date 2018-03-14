@@ -170,7 +170,6 @@ public class TicTacToe extends AppCompatActivity {
             }
 
 
-
             if (move_count != 9 && !check) {
                 cpu_move();
             }
@@ -208,31 +207,24 @@ public class TicTacToe extends AppCompatActivity {
                         }
                     }
                 }
-                String check = new BackgroundTask("getField", this).execute("select row, col" + j + " from field where row = " + x + ";").get();
-                int i_check = Integer.parseInt(tools.parse("col", check));
 
-                if (i_check == 0) {
-                    String query2 = "update field set col" + y + " = " + Tools.flag + " where row = " + x + ";";
+                String query2 = "update field set col" + y + " = " + Tools.flag + " where row = " + x + ";";
 
-                    new BackgroundTask("addData", this).execute(query2);
+                new BackgroundTask("addData", this).execute(query2);
 
-                    int temp = 0;
-                    if (Tools.flag == 1) {
-                        temp = 2;
-                    } else if (Tools.flag == 2) {
-                        temp = 1;
-                    }
-
-
-                    new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
-
-                    refresh();
-
-
-
-                } else {
-                    tools.showMsgBox("Feld schon besetzt.", Tools.MsgState.ACCEPT);
+                int temp = 0;
+                if (Tools.flag == 1) {
+                    temp = 2;
+                } else if (Tools.flag == 2) {
+                    temp = 1;
                 }
+
+
+                new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
+
+                refresh();
+
+
             } else {
 
 
