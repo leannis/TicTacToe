@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
-
 public  class Tools {
 
     public boolean msg_registry = false;
@@ -141,7 +140,7 @@ public  class Tools {
             String test= debug.substring(0, debug.indexOf("\""));
             return test;
         }
-        return "a";
+        return null;
     }
 
 
