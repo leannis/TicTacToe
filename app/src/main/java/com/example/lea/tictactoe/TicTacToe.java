@@ -108,9 +108,6 @@ public class TicTacToe extends AppCompatActivity {
                     try {
                         res2 = (new BackgroundTask("getGame", con).execute("select id, flag, move_count from game where id = " + Tools.game + ";")).get();
 
-                        if (res2.length() > 0) {
-                            flag_check = Integer.parseInt(tools.parse("flag", res2));
-                        }
                         if(flag_check == -1){
                             timer.cancel();
                             timer.purge();
@@ -126,11 +123,10 @@ public class TicTacToe extends AppCompatActivity {
                                     boolean check = check_winner();
                                     if (check) {
 
-
                                             tools.showMsgBox("Player " + flag_check + " won!", Tools.MsgState.ACCEPT_AND_EXit);
 
-                                        timer.cancel();
-                                        timer.purge();
+                                            timer.cancel();
+                                            timer.purge();
                                     } else if (!check && move_count == 9) {
 
 
@@ -139,6 +135,10 @@ public class TicTacToe extends AppCompatActivity {
                                         timer.purge();
                                     }
 
+
+                                    if (res2.length() > 0) {
+                                        flag_check = Integer.parseInt(tools.parse("flag", res2));
+                                    }
                                 } catch (ExecutionException e) {
                                     e.printStackTrace();
                                 } catch (InterruptedException e) {
@@ -154,7 +154,7 @@ public class TicTacToe extends AppCompatActivity {
                 }
 
 
-            }, 0, 1000);
+            }, 500, 500);
         }
     }
 
