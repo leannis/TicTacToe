@@ -121,6 +121,8 @@ public class TicTacToe extends AppCompatActivity {
 
                                 try {
                                     refresh();
+                                    String str_move = new BackgroundTask("getGame", con).execute("select id, flag, move_count from game where id = " + Tools.game + ";").get();
+                                    move_count = Integer.parseInt(tools.parse("move_count", str_move));
                                     boolean check = check_winner();
                                     if (check) {
 
