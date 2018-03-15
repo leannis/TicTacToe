@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 public  class Tools {
 
-    public boolean msg_registry = false;
     public Context con;
     public static int flag = 0;
     public static int game;
@@ -66,9 +65,6 @@ public  class Tools {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                       con.startActivity(new Intent(con, LogIn.class));
-//                       Activity act = (Activity) con;
-//                       act.finish();
                         Activity activity = (Activity) con;
                         activity.finish();
                         activity.finishAffinity();
@@ -130,7 +126,6 @@ public  class Tools {
             System.out.println("true");
             return true;
         }
-
     }
 
     public String parse(String key, String input){
@@ -141,13 +136,5 @@ public  class Tools {
             return test;
         }
         return null;
-    }
-
-
-    public void set_user(String user ){
-        this.logged_user = user;
-    }
-    public String get_user(){
-        return logged_user;
     }
 }

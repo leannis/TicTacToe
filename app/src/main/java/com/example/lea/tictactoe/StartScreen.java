@@ -29,9 +29,6 @@ public class StartScreen extends AppCompatActivity {
         Button b_logout = (Button) findViewById(R.id.b_logout);
 
 
-
-
-
         b_single.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +65,8 @@ public class StartScreen extends AppCompatActivity {
         b_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new BackgroundTask("addData", con).execute("update users set logged = 0 where user = '"+Tools.logged_user+"';");
+                new BackgroundTask("addData", con).execute("update users set logged = 0 " +
+                        "where user = '" + Tools.logged_user + "';");
                 tools.showMsgBox("Logout?", Tools.MsgState.LOGOUT);
 
             }
@@ -77,11 +75,11 @@ public class StartScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(LogIn.connected){
+        if (LogIn.connected) {
             startActivity(new Intent(StartScreen.this, LogIn.class));
-            new BackgroundTask("addData", getParent()).execute("update users set logged = 0 where user = '"+Tools.logged_user+"';");
-        }
-        else if (!LogIn.connected){
+            new BackgroundTask("addData", getParent()).execute("update users set logged = 0 " +
+                    "where user = '" + Tools.logged_user + "';");
+        } else if (!LogIn.connected) {
             tools.showMsgBox("Do you really want to exit?", Tools.MsgState.EXIT);
 
         }
@@ -89,39 +87,33 @@ public class StartScreen extends AppCompatActivity {
 
     public void joinGame() throws ExecutionException, InterruptedException {
 
-      String res = new BackgroundTask("getGame", this).execute("select id from game where player1 is not null").get();
+        String res = new BackgroundTask("getGame", this).execute("select id from game" +
+                " where player1 is not null").get();
 
-      String id = "";
+        String id = "";
 
+        if (!tools.checkResult(res)) {
+            String query = "insert into game (player1, player2, flag) values('" + Tools.logged_user + "','', '');";
+            new BackgroundTask("addData", this).execute(query);
+            Tools.flag = 1;
 
+            id = new BackgroundTask("getGame", this).execute("select id from game " +
+                    "where player1 = '" + Tools.logged_user + "';").get();
+            Tools.game = Integer.parseInt(tools.parse("id", id));
 
-      if(!tools.checkResult(res)){
-          //Satz in Tabelle einfügen
-
-          String query = "insert into game (player1, player2, flag) values('"+Tools.logged_user+"','', '');";
-          new BackgroundTask("addData", this).execute(query);
-          Tools.flag = 1;
-
-          id = new BackgroundTask("getGame", this).execute("select id from game where player1 = '"+Tools.logged_user+"';").get();
-          Tools.game =  Integer.parseInt(tools.parse("id", id));
-
-
-
-      }
-      else if (tools.checkResult(res)){
-            id = new BackgroundTask("getGame", this).execute("select id from game where player1 is not null;").get();
+        } else if (tools.checkResult(res)) {
+            id = new BackgroundTask("getGame", this).execute("select id from game " +
+                    "where player1 is not null;").get();
             String parsedid = tools.parse("id", id);
-            String query = "update game set player2 = '"+Tools.logged_user+"' where id = "+parsedid+";";
+            String query = "update game set player2 = '" + Tools.logged_user + "' where id = " + parsedid + ";";
             System.out.println(query);
             new BackgroundTask("addData", this).execute(query);
             System.out.println("Updated");
             Tools.flag = 2;
             Tools.game = Integer.parseInt(parsedid);
 
-            new BackgroundTask("addData", this).execute("update game set flag = 1 where id = " + Tools.game + ";");
-
-
-      }
-
+            new BackgroundTask("addData", this).execute("update game set flag = 1 " +
+                    "where id = " + Tools.game + ";");
+        }
     }
 }
