@@ -124,8 +124,7 @@ public class TicTacToe extends AppCompatActivity {
                                     boolean check = check_winner();
                                     if (check) {
 
-
-                                        if (flag_winner == Tools.flag) {
+                                        if (flag_check == Tools.flag) {
                                             tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
                                         } else {
                                             tools.showMsgBox("You lost!", Tools.MsgState.ACCEPT_AND_EXit);
@@ -228,7 +227,6 @@ public class TicTacToe extends AppCompatActivity {
 
             if (flag_check == Tools.flag) {
 
-
                 int x = 0, y = 0;
 
                 for (int i = 0; i < 3; i++) {
@@ -261,7 +259,7 @@ public class TicTacToe extends AppCompatActivity {
                     move_count = Integer.parseInt(tools.parse("move_count", str_mc)) + 1;
 
 
-                    flag_winner = flag_check;
+
                     new BackgroundTask("addData", this).execute("update game set move_count = " + move_count + " where id = " + Tools.game + ";");
                     new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
                 } else {

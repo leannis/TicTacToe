@@ -107,7 +107,7 @@ public class LogIn extends AppCompatActivity {
                         int logged = Integer.parseInt(debug);
                         if (logged == 1) {
                             tools.showToast("You're already logged in!");
-                            startActivity(new Intent(LogIn.this, StartScreen.class));
+
                         } else {
                             String query = "update users set logged = 1 where user='" + user + "' " +
                                     "and password = '" + password + "';";
