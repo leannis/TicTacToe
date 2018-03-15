@@ -120,13 +120,12 @@ public class TicTacToe extends AppCompatActivity {
                                     if (check) {
 
                                         System.out.println(flag_check + "---" + Tools.flag);
-                                        if (flag_check != Tools.flag) {
+                                        if (flag_check == Tools.flag) {
                                             tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
                                         } else {
                                             tools.showMsgBox("You lost!", Tools.MsgState.ACCEPT_AND_EXit);
 
                                         }
-
                                         timer.cancel();
                                     } else if (!check && move_count == 9) {
 
@@ -134,6 +133,7 @@ public class TicTacToe extends AppCompatActivity {
                                         tools.showMsgBox("Tied!", Tools.MsgState.ACCEPT_AND_EXit);
                                         timer.cancel();
                                     }
+
                                 } catch (ExecutionException e) {
                                     e.printStackTrace();
                                 } catch (InterruptedException e) {
