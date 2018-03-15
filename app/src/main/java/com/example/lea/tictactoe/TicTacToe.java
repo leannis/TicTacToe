@@ -55,7 +55,7 @@ public class TicTacToe extends AppCompatActivity {
 
         if (gamemode == 3) {
 
-            tools.showMsgBox("Your game is " + Tools.game, Tools.MsgState.ACCEPT);
+            tools.showMsgBox("Your game is " + Tools.game + "\nYou are player "+Tools.flag, Tools.MsgState.ACCEPT);
         }
 
         homeButton.setOnClickListener(new View.OnClickListener() {
@@ -126,12 +126,9 @@ public class TicTacToe extends AppCompatActivity {
                                     boolean check = check_winner();
                                     if (check) {
 
-                                        if (flag_check == Tools.flag) {
-                                            tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
-                                        } else {
-                                            tools.showMsgBox("You lost!", Tools.MsgState.ACCEPT_AND_EXit);
 
-                                        }
+                                            tools.showMsgBox("Player " + flag_check + " won!", Tools.MsgState.ACCEPT_AND_EXit);
+
                                         timer.cancel();
                                         timer.purge();
                                     } else if (!check && move_count == 9) {
