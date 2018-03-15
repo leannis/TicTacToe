@@ -135,6 +135,6 @@ public  class Tools {
             String test= debug.substring(0, debug.indexOf("\""));
             return test;
         }
-        return null;
+        return "-1";
     }
 }

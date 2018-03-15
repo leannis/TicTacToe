@@ -306,11 +306,7 @@ public class TicTacToe extends AppCompatActivity {
             tools.showMsgBox("Field already taken", Tools.MsgState.ACCEPT);
         } else {
             set_field_player(b);
-            if (g_player == 1) {
-                g_player = 2;
-            } else if (g_player == 2) {
-                g_player = 1;
-            }
+
             check = check_winner();
             if (check) {
                 if (gamemode == 2) {
@@ -318,6 +314,11 @@ public class TicTacToe extends AppCompatActivity {
                 } else if (gamemode == 1) {
                     tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
                 }
+            }
+            if (g_player == 1) {
+                g_player = 2;
+            } else if (g_player == 2) {
+                g_player = 1;
             }
         }
         if (!check && move_count == 9) {
