@@ -39,6 +39,7 @@ public class TicTacToe extends AppCompatActivity {
     // 2:   multi
     // 3:   multi web
     int flag_check;
+    int flag_winner;
     int move_count = 0;
     Tools tools;
 
@@ -110,6 +111,10 @@ public class TicTacToe extends AppCompatActivity {
                         if (res2.length() > 0) {
                             flag_check = Integer.parseInt(tools.parse("flag", res2));
                         }
+                        if(flag_check == -1){
+                            timer.cancel();
+                            timer.purge();
+                        }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -120,18 +125,20 @@ public class TicTacToe extends AppCompatActivity {
                                     if (check) {
 
                                         System.out.println(flag_check + "---" + Tools.flag);
-                                        if (flag_check == Tools.flag) {
+                                        if (flag_winner == Tools.flag) {
                                             tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
                                         } else {
                                             tools.showMsgBox("You lost!", Tools.MsgState.ACCEPT_AND_EXit);
 
                                         }
                                         timer.cancel();
+                                        timer.purge();
                                     } else if (!check && move_count == 9) {
 
 
                                         tools.showMsgBox("Tied!", Tools.MsgState.ACCEPT_AND_EXit);
                                         timer.cancel();
+                                        timer.purge();
                                     }
 
                                 } catch (ExecutionException e) {
@@ -255,6 +262,7 @@ public class TicTacToe extends AppCompatActivity {
 
                     System.out.println("MOVE_COUNT" + move_count);
 
+                    flag_winner = flag_check;
                     new BackgroundTask("addData", this).execute("update game set move_count = " + move_count + " where id = " + Tools.game + ";");
                     new BackgroundTask("addData", this).execute("update game set flag = " + temp + " where id = " + Tools.game + ";");
                 } else {
@@ -361,6 +369,7 @@ public class TicTacToe extends AppCompatActivity {
     public void refresh() throws ExecutionException, InterruptedException {
 
         System.out.println("REFRESH");
+        player_view.setText("current player: player " + flag_check);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 String query = "select row, col" + j + " from field where row = " + i + ";";
