@@ -117,14 +117,14 @@ public  class Tools {
     public boolean checkResult(String input){
 
         String debug = input.substring(input.indexOf('[') +1, input.indexOf(']') );
-        System.out.println("Debug: " + debug + " Length + " + debug.length());
+
 
         if (debug.length() < 1){
-            System.out.println("false");
+
             return false;
         }
         else{
-            System.out.println("true");
+
             return true;
         }
     }

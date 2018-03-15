@@ -54,9 +54,9 @@ public class SignUp extends Activity {
                 } else if (pw1.isEmpty() || pw2.isEmpty()) {
                     tools.showMsgBox("Please enter/confirm  Password", Tools.MsgState.ACCEPT);
                 } else if (!(user.isEmpty()) && !(pw1.isEmpty()) && !(pw2.isEmpty())) {
-                    System.out.println("debug");
+
                     int ret = pwm.checkUserRegister(user);
-                    System.out.println(ret);
+
                     if (ret == -1) {
                         tools.showMsgBox("This Username has already been taken.", Tools.MsgState.ACCEPT);
                     } else if (ret == 1) {

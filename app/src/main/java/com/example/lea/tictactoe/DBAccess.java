@@ -58,10 +58,10 @@ public  class DBAccess extends SQLiteOpenHelper {
 
 
     public  String getUserPWbyName(String user){
-        System.out.println("DEBUG");
+
         Cursor result = db.query("users", null, "user = " + "'" + user + "'", null, null, null, null);
 
-        System.out.println("Anzahl in Tabelle : " + result.getCount());
+
 
         if (result.getCount() > 0) {
             result.moveToFirst();

@@ -100,9 +100,9 @@ public class LogIn extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        System.out.println("print res_logged: " + res_logged);
+
                         String debug = tools.parse("logged", res_logged);
-                        System.out.println("DEBUG nach parse: " + debug);
+
 
                         int logged = Integer.parseInt(debug);
                         if (logged == 1) {
@@ -111,7 +111,7 @@ public class LogIn extends AppCompatActivity {
                         } else {
                             String query = "update users set logged = 1 where user='" + user + "' " +
                                     "and password = '" + password + "';";
-                            System.out.println("SSSS: " + query);
+
                             new BackgroundTask("addData", con).execute(query);
                             Tools.logged_user = user;
                             startActivity(new Intent(LogIn.this, StartScreen.class));

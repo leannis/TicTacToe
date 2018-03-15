@@ -106,9 +106,9 @@ public class StartScreen extends AppCompatActivity {
                     "where player1 is not null;").get();
             String parsedid = tools.parse("id", id);
             String query = "update game set player2 = '" + Tools.logged_user + "' where id = " + parsedid + ";";
-            System.out.println(query);
+
             new BackgroundTask("addData", this).execute(query);
-            System.out.println("Updated");
+
             Tools.flag = 2;
             Tools.game = Integer.parseInt(parsedid);
 

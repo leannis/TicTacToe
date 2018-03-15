@@ -107,7 +107,7 @@ public class TicTacToe extends AppCompatActivity {
                 public void run() {
                     try {
                         res2 = (new BackgroundTask("getGame", con).execute("select id, flag, move_count from game where id = " + Tools.game + ";")).get();
-                        System.out.println(res2);
+
                         if (res2.length() > 0) {
                             flag_check = Integer.parseInt(tools.parse("flag", res2));
                         }
@@ -124,7 +124,7 @@ public class TicTacToe extends AppCompatActivity {
                                     boolean check = check_winner();
                                     if (check) {
 
-                                        System.out.println(flag_check + "---" + Tools.flag);
+
                                         if (flag_winner == Tools.flag) {
                                             tools.showMsgBox("You won!", Tools.MsgState.ACCEPT_AND_EXit);
                                         } else {
@@ -206,7 +206,7 @@ public class TicTacToe extends AppCompatActivity {
         if (gamemode == 1) {
 
             player_move(b);
-            System.out.println(g_player);
+
 
             try {
                 Thread.sleep(1000);
@@ -217,7 +217,7 @@ public class TicTacToe extends AppCompatActivity {
             if (move_count != 9 && !check) {
                 cpu_move();
             }
-            System.out.println(g_player);
+
         }
 
         if (gamemode == 2) {
@@ -227,14 +227,14 @@ public class TicTacToe extends AppCompatActivity {
         if (gamemode == 3) {
 
             if (flag_check == Tools.flag) {
-                System.out.println("DU BIST DRAN");
+
 
                 int x = 0, y = 0;
 
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         if (buttons[i][j].getId() == b.getId()) {
-                            System.out.println(i + " " + j);
+
                             x = i;
                             y = j;
                             break;
@@ -260,7 +260,6 @@ public class TicTacToe extends AppCompatActivity {
                     String str_mc = new BackgroundTask("getGame", this).execute("select id, flag, move_count from game where id = " + Tools.game + ";").get();
                     move_count = Integer.parseInt(tools.parse("move_count", str_mc)) + 1;
 
-                    System.out.println("MOVE_COUNT" + move_count);
 
                     flag_winner = flag_check;
                     new BackgroundTask("addData", this).execute("update game set move_count = " + move_count + " where id = " + Tools.game + ";");
@@ -347,7 +346,6 @@ public class TicTacToe extends AppCompatActivity {
 
         int rand_x = rand.nextInt(2 + 1);
         int rand_y = rand.nextInt(2 + 1);
-        System.out.println("Random numbers: x: " + rand_x + " y: " + rand_y);
 
         if (!set_field_cpu(buttons[rand_x][rand_y])) {
             cpu_move();
