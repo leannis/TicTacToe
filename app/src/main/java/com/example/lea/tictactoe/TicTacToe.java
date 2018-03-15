@@ -154,7 +154,7 @@ public class TicTacToe extends AppCompatActivity {
                 }
 
 
-            }, 500, 500);
+            }, 100, 1000);
         }
     }
 
@@ -331,11 +331,12 @@ public class TicTacToe extends AppCompatActivity {
         if (!check && move_count == 9) {
             tools.showMsgBox("Tied!", Tools.MsgState.ACCEPT_AND_EXit);
         }
-
-        if (gamemode == 1) {
-            player_view.setText("current player: computer");
-        } else {
-            player_view.setText("current player: player " + g_player);
+        if(!check) {
+            if (gamemode == 1) {
+                player_view.setText("current player: computer");
+            } else {
+                player_view.setText("current player: player " + g_player);
+            }
         }
     }
 
@@ -368,14 +369,10 @@ public class TicTacToe extends AppCompatActivity {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 String query = "select row, col" + j + " from field where row = " + i + ";";
-
                 String res = new BackgroundTask("getField", con).execute(query).get();
-
                 int col = Integer.parseInt(tools.parse("column", res));
-
                 if (col == 1) {
                     buttons[i][j].setBackgroundColor(Color.RED);
-
                 } else if (col == 2) {
                     buttons[i][j].setBackgroundColor(Color.YELLOW);
                 }
