@@ -7,6 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.concurrent.ExecutionException;
+
+/*
+*CLASS SIGNUP.JAVA
+* Diese Klasse gehört zur Activity Signup. Sie regelt den Registrierungsvorgang.
+* Es können ein Benutzer sowie 2 Passwörter eingegeben werden.
+*
+ */
+
 public class SignUp extends Activity {
 
     public static final String EXTRA_MESSAGE = "com.example.TicTacToe.MESSAGE";
@@ -55,16 +64,23 @@ public class SignUp extends Activity {
                     tools.showMsgBox("Please enter/confirm  Password", Tools.MsgState.ACCEPT);
                 } else if (!(user.isEmpty()) && !(pw1.isEmpty()) && !(pw2.isEmpty())) {
 
-                    int ret = pwm.checkUserRegister(user);
+                    boolean ret = false;
+                    try {
+                         ret = pwm.checkUserRegister(user);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-                    if (ret == -1) {
+                    if (ret) {
                         tools.showMsgBox("This Username has already been taken.", Tools.MsgState.ACCEPT);
-                    } else if (ret == 1) {
+                    } else {
 
                         if (!(pw1.equals(pw2))) {
                             tools.showMsgBox("Passwords don't match.", Tools.MsgState.ACCEPT);
                         } else {
-                            // add user into db
+
                             pwm.addUser(user, pw1);
                             tools.showToast("User has been successfully signed up!");
                             startActivity(new Intent(SignUp.this, LogIn.class));

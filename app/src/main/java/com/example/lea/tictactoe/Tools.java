@@ -6,13 +6,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
-
+/*
+*CLASS TOOLS.JAVA
+*
+* Diese Klasse beinhaltet eine Reihe von Methoden, die immer wieder im Laufe des Programms
+* verwendet werden. Dazu gehören z.B. Custom-Messageboxen etc.
+* Außerdem enthält sie zentrale Informationen zum Spiel selbst.
+*
+ */
 public  class Tools {
 
     public Context con;
     public static int flag = 0;
-    public static int game;
-    public static String logged_user;
+    public static int game; //Spiel-ID
+    public static String logged_user; //aktuell eingeloggter Spieler
 
     public Tools(Context cont) {
         this.con = cont;
@@ -23,6 +30,9 @@ public  class Tools {
     }
 
     public void showMsgBox(String msg, MsgState state) {
+
+        //Zeigt Messageboxen an, es wird ein MsgState übergeben. Anhand von Diesem können
+        //unterschiedliche Reaktionen erfolen.
 
         AlertDialog.Builder builder = new AlertDialog.Builder(con);
         builder.setTitle("TicTacToe");
@@ -107,6 +117,10 @@ public  class Tools {
     }
 
     public void showToast(String msg) {
+
+        //Zeigt einen Toast (ähnlich wie Benachrichtung) mit der übergebenen Nachricht
+        //msg an.
+
         Context context = con.getApplicationContext();
         CharSequence text = msg;
         int duration = Toast.LENGTH_LONG;
@@ -116,25 +130,32 @@ public  class Tools {
 
     public boolean checkResult(String input){
 
+        //Trimmt einen String input auf den Wert zwischen [ und ]
+        //Ist dieser Länger als 0, gibt sie true zurück, sonst null.
+        //Wird zum Überprüfen von Datenbankresults verwendet.
+
         String debug = input.substring(input.indexOf('[') +1, input.indexOf(']') );
 
-
         if (debug.length() < 1){
-
             return false;
         }
         else{
-
             return true;
         }
     }
 
     public String parse(String key, String input){
 
+        //Gibt aus einem String input den zugehörigen Key zurück.
+        //Die Ergebnisse aus der Datenbank kommen im Folgenden Format:
+        // ".....([Spalte]":"[Wert]).....
+        //Um nun den Wert zu einer Spalte (key) zurückzugeben, wird diese Funktion
+        //benötigt. Wird der eingegebene Key nicht im input gefunden, wirde -1 zurückgegeben
+
         if(input.indexOf(key) > 0){
             String debug = input.substring(input.indexOf(key)+key.length()+3, input.length());
-            String test= debug.substring(0, debug.indexOf("\""));
-            return test;
+            String ret= debug.substring(0, debug.indexOf("\""));
+            return ret;
         }
         return "-1";
     }

@@ -4,6 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.concurrent.ExecutionException;
+
+/*
+*CLASS PASSWORDMANAGER.JAVA
+*
+* Enthält Funktionen, die zum User-Managementprüfung nötig sind.
+*
+ */
+
 public class PasswordManager {
 
     DBAccess access;
@@ -21,6 +30,7 @@ public class PasswordManager {
         this.tools = new Tools(cont);
     }
 
+    //User zur Datenbank hinzufügen
     public void addUser(String user, String password) {
         String query = "insert into users (user, password) values('" + user + "','" + password + "');";
 
@@ -29,15 +39,21 @@ public class PasswordManager {
         act.finish();
     }
 
-    public int checkUserRegister(String user) {
+    //Prüfen ob ein User bereits registriert ist.
+    public boolean checkUserRegister(String user) throws ExecutionException, InterruptedException {
 
-        Cursor cursor = access.db.query("users", null, "user = " + "'" +
-                user + "'", null, null, null, null);
 
-        if (cursor.getCount() > 0) {
-            return -1;
-        } else {
-            return 1;
+        String res = new BackgroundTask("getUser", cont).execute("select user, " +
+                "password from users where user='" + user + ";").get();
+        System.out.println(res);
+        if (tools.checkResult(res)){
+            System.out.println("true");
+            return true;
         }
+        else{
+            System.out.println("false");
+            return false;
+        }
+
     }
 }

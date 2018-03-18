@@ -85,13 +85,18 @@ public class StartScreen extends AppCompatActivity {
         }
     }
 
+    //Multiplayer Web - Spiel beitreten.
     public void joinGame() throws ExecutionException, InterruptedException {
 
+        //Einem Spiel im Multiplayer Web beitreten
+
+        //Ein Spiel finden, bei dem der Spieler 1 schon gesetzt ist.
         String res = new BackgroundTask("getGame", this).execute("select id from game" +
                 " where player1 is not null").get();
 
         String id = "";
 
+        //Wenn kein Satz gefunden wurde, dann neuen Satz einfügen und sich selbst als Spieler 1 festlegen
         if (!tools.checkResult(res)) {
             String query = "insert into game (player1, player2, flag) values('" + Tools.logged_user + "','', '');";
             new BackgroundTask("addData", this).execute(query);
@@ -101,7 +106,9 @@ public class StartScreen extends AppCompatActivity {
                     "where player1 = '" + Tools.logged_user + "';").get();
             Tools.game = Integer.parseInt(tools.parse("id", id));
 
+       //Ansonsten sich selbst als 2.Spieler in das bestehende Spiel eintragen.
         } else if (tools.checkResult(res)) {
+
             id = new BackgroundTask("getGame", this).execute("select id from game " +
                     "where player1 is not null;").get();
             String parsedid = tools.parse("id", id);

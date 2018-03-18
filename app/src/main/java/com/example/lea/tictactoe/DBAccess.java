@@ -7,6 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/*
+*VERALTET !!!!
+*
+* Wurde benutzt, um eine lokal auf dem Gerät befindliche Datenbank anzusprechen
+*
+ */
 
 public  class DBAccess extends SQLiteOpenHelper {
 

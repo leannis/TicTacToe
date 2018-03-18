@@ -14,6 +14,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+/*CLASS BACKGROUNDTASK.JAVA
+* Diese Klasse regelt den Zugriff auf die Datenbank.
+* Sie ist abgeleitet vom AsyncTask.
+* Bei den Abfragen wird ein Objekt der Klasse erstellt.
+* Die Methode execute führt SQL Querys aus.
+*/
 public class BackgroundTask extends AsyncTask<String, String, String> {
 
     private String add_data_url;
@@ -25,10 +31,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         this.con = context;
     }
 
-
     public BackgroundTask(String method, Context context) {
         this.method = method;
-
         this.con = context;
     }
 
