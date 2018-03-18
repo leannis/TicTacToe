@@ -133,7 +133,11 @@ public class TicTacToe extends AppCompatActivity {
                                     boolean check = check_winner();
                                     if (check) {
 
-                                        tools.showMsgBox("Player " + flag_check + " won!", Tools.MsgState.ACCEPT_AND_EXit);
+                                        if(flag_check == 1) {
+                                            tools.showMsgBox("Player 2 won!", Tools.MsgState.ACCEPT_AND_EXit);
+                                        }else if (flag_check == 2){
+                                            tools.showMsgBox("Player 1 won!", Tools.MsgState.ACCEPT_AND_EXit);
+                                        }
 
                                         timer.cancel();
                                         timer.purge();

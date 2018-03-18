@@ -111,9 +111,8 @@ public class LogIn extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
-                        String debug = tools.parse("logged", res_logged);
-                        int logged = Integer.parseInt(debug);
+                        String parsed = tools.parse("logged", res_logged);
+                        int logged = Integer.parseInt(parsed);
 
                         if (logged == 1) {
                             tools.showToast("You're already logged in!");
